@@ -19,14 +19,14 @@ body {
 * TIMER
 *=================*/
 .timer {
-  width: 550px;
-  height: 248px;
+  width: 262px;
+  height: 156px;
   display: block;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-left: -275px;
-  margin-top: -124px;
+  margin-left: -132px;
+  margin-top: -78px;
   color: white;
 }
 .timer * {
@@ -52,7 +52,7 @@ body {
 .timer--clock .clock-display-grp .number-grp {
   width: auto;
   display: block;
-  height: 156px;
+  height: 100px;
   float: left;
   overflow: hidden;
 }
@@ -68,8 +68,8 @@ body {
 .timer--clock .clock-display-grp .number-grp .number-grp-wrp .num p {
   width: auto;
   display: table;
-  font-size: 205px;
-  line-height: 150px;
+  font-size: 100px;
+  line-height: 100px;
   font-weight: bold;
 }
 .timer--clock .clock-separator {
@@ -81,17 +81,9 @@ body {
 .timer--clock .clock-separator p {
   width: auto;
   display: table;
-  font-size: 205px;
-  line-height: 150px;
+  font-size: 100px;
+  line-height: 100px;
   font-weight: bold;
-}
-.timer h4 {
-  width: 100%;
-  font-size: 10px;
-  letter-spacing: 6px;
-  text-align: center;
-  padding-top: 25px;
-  float: left;
 }
 
 .reload {
