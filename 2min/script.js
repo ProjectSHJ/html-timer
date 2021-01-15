@@ -94,5 +94,5 @@ reloadBtn.addEventListener('click', function () {
       } 
    });
    TweenMax.to(timerEl, 1, { opacity: 1 });
-   initTimer("10:00");
+   initTimer("02:00");
 });
