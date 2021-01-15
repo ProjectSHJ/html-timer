@@ -95,12 +95,12 @@ body {
 }
 
 .reload {
-  width: 125px;
-  height: 14px;
+  width: 220px;
+  height: 16px;
   position: absolute;
   bottom: 50vh;
   left: 50%;
-  margin-left: -62.5px;
+  margin-left: -110px;
   opacity: 0;
   display: none;
   cursor: pointer;
@@ -113,14 +113,14 @@ body {
   color: #666666;
 }
 .reload svg {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   float: left;
   margin-right: 10px;
 }
 .reload p {
   color: #2b2b2b;
-  font-size: 12px;
+  font-size: 24px;
   float: left;
-  line-height: 11px;
+  line-height: 14px;
 }
