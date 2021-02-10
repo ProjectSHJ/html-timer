@@ -11,8 +11,8 @@
 }
 
 body {
-  background: #d7d7d7;
-  color: white;
+  background: white;
+  color: ##41414e;
 }
 
 /*=================
@@ -27,7 +27,7 @@ body {
   left: 50%;
   margin-left: -105px;
   margin-top: -50px;
-  color: white;
+  color: #41414e;
 }
 .timer * {
   cursor: default;
