@@ -19,14 +19,14 @@ body {
 * TIMER
 *=================*/
 .timer {
-  width: 262px;
-  height: 156px;
+  width: 210px;
+  height: 80px;
   display: block;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-left: -132px;
-  margin-top: -78px;
+  margin-left: -105px;
+  margin-top: -50px;
   color: white;
 }
 .timer * {
@@ -39,10 +39,11 @@ body {
   text-align: center;
 }
 .timer--clock {
-  width: 100%;
+  width: 210px;
+  height: 100%
   position: relative;
-  padding-left: 6px;
-  margin-top: 22px;
+  /* padding-left: 6px;
+  margin-top: 22px; */
   overflow: hidden;
 }
 .timer--clock .clock-display-grp {
@@ -52,7 +53,7 @@ body {
 .timer--clock .clock-display-grp .number-grp {
   width: auto;
   display: block;
-  height: 100px;
+  height: 80px;
   float: left;
   overflow: hidden;
 }
@@ -63,26 +64,26 @@ body {
 .timer--clock .clock-display-grp .number-grp .number-grp-wrp .num {
   width: 100%;
   position: relative;
-  height: 156px;
+  height: 120px;
 }
 .timer--clock .clock-display-grp .number-grp .number-grp-wrp .num p {
   width: auto;
   display: table;
-  font-size: 100px;
-  line-height: 100px;
+  font-size: 80px;
+  line-height: 80px;
   font-weight: bold;
 }
 .timer--clock .clock-separator {
   width: auto;
   float: left;
   display: block;
-  height: 156px;
+  height: 100%;
 }
 .timer--clock .clock-separator p {
   width: auto;
   display: table;
-  font-size: 100px;
-  line-height: 100px;
+  font-size: 80px;
+  line-height: 70px;
   font-weight: bold;
 }
 
@@ -99,10 +100,10 @@ body {
   z-index: 9999;
 }
 .reload:hover svg path {
-  fill: #666666;
+  fill: #75757d;
 }
 .reload:hover p {
-  color: #666666;
+  color: #75757d;
 }
 .reload svg {
   width: 16px;
@@ -111,7 +112,7 @@ body {
   margin-right: 10px;
 }
 .reload p {
-  color: #2b2b2b;
+  color: #44414e;
   font-size: 24px;
   float: left;
   line-height: 14px;
