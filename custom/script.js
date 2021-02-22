@@ -1,11 +1,11 @@
 var secondsRemaining;
 var intervalHandle;
 
-// function resetPage(){
+function resetPage(){
+	document.getElementById("buttonArea").style.display = "none";
+	document.getElementById("inputArea").style.display = "flex";
 
-// 	document.getElementById("inputArea").style.display = "flex";
-
-// }
+}
 
 function tick(){
 	// grab the h1
@@ -70,12 +70,7 @@ function startCountdown(){
 function resetCountdown() {
 	// alert("timer stopped");
 	clearInterval(intervalHandle);
-
-	// hide stop button area
-	document.getElementById("buttonArea").style.display = "none";
-
-	// show input area
-	document.getElementById("inputArea").style.display = "flex";
+	resetPage();
 
 	// grab the h1
 	var timeDisplay = document.getElementById("time");
