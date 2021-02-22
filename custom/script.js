@@ -28,7 +28,7 @@ function tick(){
 
 	// stop is down to zero
 	if (secondsRemaining === 0){
-		alert("Done!");
+		// alert("Done!");
 		clearInterval(intervalHandle);
 		resetPage();
 	}
