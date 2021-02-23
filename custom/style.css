@@ -1,17 +1,19 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Arimo', sans-serif;
+  background-color: white;
   color: #41414e;
 }
 
 #container {
-  width: 400px;
-  height: 150px;
-  display: block;
+  width: 200px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-left: -200px;
-  margin-top: -75px;
+  margin-left: -100px;
+  margin-top: -50px;
 }
 
 #inputArea {
@@ -19,6 +21,8 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  font-weight: 400;
+  margin-bottom: 6px;
 }
 
 #buttonArea {
@@ -26,24 +30,29 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin-bottom: 6px;
 }
 
 h1 {
-  font-size: 5em;
+  display: inline-block;
+  font-size: 4em;
+  font-weight: 700;
   text-align: center;
   margin: 0;
+  line-height: .8em;
+  margin: 5px 0 10px 0;
 }
 
 #minutes {
-  width: 40px;
-  height: 26px;
+  width: 36px;
+  height: 22px;
   margin-right: 4px;
 }
 
 .btn {
   margin-left: 10px;
-  width: 40px;
-  height: 26px;
+  width: 36px;
+  height: 22px;
   padding: 1px 2px;
   background-color: #5b53ed;
   color: white;

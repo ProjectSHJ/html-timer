@@ -84,11 +84,11 @@ window.onload = function(){
 	// create input text box and give it an id of "min"
 	var inputMinutes = document.createElement("input");
 	inputMinutes.setAttribute("id", "minutes");
-	inputMinutes.setAttribute("type", "text");
+	inputMinutes.setAttribute("type", "number");
    	inputMinutes.setAttribute("autocomplete", "off");
 	
    // create min text
-   var minText = document.createTextNode("min");
+   var minText = document.createTextNode("분");
 
 
 	//create a button
