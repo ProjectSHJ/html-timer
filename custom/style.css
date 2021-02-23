@@ -13,7 +13,7 @@
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: #292E30;
+    background-color: #2F3638;
     color: #f3f4f5;
   }
   input {
