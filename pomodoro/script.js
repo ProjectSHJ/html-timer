@@ -2,7 +2,7 @@ var secondsRemaining;
 var intervalHandle;
 
 function resetPage(){
-	document.getElementById("buttonArea").style.display = "none";
+	document.getElementById("focusArea").style.display = "none";
 	document.getElementById("inputArea").style.display = "flex";
 
 }
@@ -40,18 +40,9 @@ function tick(){
 
 function startCountdown(){
 
-	function resetPage(){
-		document.getElementById("inputArea").style.display = "flex";
-	}
-
-	// get countents of the "minutes" text box
-	var minutes = document.getElementById("minutes").value;
-	
-	// check if not a number
-	if (isNaN(minutes)){
-		alert("Please enter a number");
-		return; // stops function if true
-	}
+	// [[EDIT HERE]] get countents of the "minutes" text box
+	// var minutes = document.getElementById("minutes").value;
+	var minutes = 1;
 
 	// how many seconds
 	secondsRemaining = minutes * 60;
@@ -60,8 +51,8 @@ function startCountdown(){
 	// have to make it into a variable so that you can stop the interval later!!!
 	intervalHandle = setInterval(tick, 1000);
 	
-	// show stop button area
-	document.getElementById("buttonArea").style.display = "flex";
+	// show focusTask, button area
+	document.getElementById("focusArea").style.display = "flex";
 	
 	// hide input area
 	document.getElementById("inputArea").style.display = "none";
@@ -79,18 +70,25 @@ function resetCountdown() {
 	timeDisplay.innerHTML = "0:00";
 }
 
+function pauseCountdown() {
+
+}
+
+function createFocusTask() {
+	// get input value from inputTask input to focusTask div
+	var x = document.getElementById("task").value;
+	document.getElementById("focusTask").innerHTML = x;
+}
+
 window.onload = function(){
 
 	// create input text box and give it an id of "min"
-	var inputMinutes = document.createElement("input");
-	inputMinutes.setAttribute("id", "minutes");
-	inputMinutes.setAttribute("type", "text");
-   	inputMinutes.setAttribute("autocomplete", "off");
+	var inputTask = document.createElement("input");
+	inputTask.setAttribute("id", "task");
+	inputTask.setAttribute("type", "text");
+   	inputTask.setAttribute("autocomplete", "off");
+	inputTask.setAttribute("placeholder", "What do you about to focus about?");
 	
-   // create min text
-   var minText = document.createTextNode("min");
-
-
 	//create a button
 	var startButton = document.createElement("input");
 	startButton.setAttribute("id", "startButton");
@@ -99,6 +97,7 @@ window.onload = function(){
 	startButton.setAttribute("value","시작");
 	startButton.onclick = function(){
 		startCountdown();
+		createFocusTask();
 	};
 	
 	// create stop button
@@ -110,13 +109,23 @@ window.onload = function(){
 	stopButton.onclick = function() {
 		resetCountdown();
 	}
+
+	// create pause button
+	var pauseButton = document.createElement("input");
+	pauseButton.setAttribute("id", "pause");
+	pauseButton.setAttribute("class", "btn");
+	pauseButton.setAttribute("type", "button");
+	pauseButton.setAttribute("value", "일시중지");
+	pauseButton.onclick = function() {
+		pauseCountdown();
+	}
 	
-	//add to the DOM, to the div called "inputArea", "buttonArea"
-	document.getElementById("inputArea").appendChild(inputMinutes);
-	document.getElementById("inputArea").appendChild(minText);
+	//add to the DOM, to the div called "inputArea", "focusTask", "buttonArea"
+	document.getElementById("inputArea").appendChild(inputTask);
 	document.getElementById("inputArea").appendChild(startButton);	
 	document.getElementById("buttonArea").appendChild(stopButton);
+	document.getElementById("buttonArea").appendChild(pauseButton);
 
 	// hide stop button area
-	document.getElementById("buttonArea").style.display = "none";
+	resetPage();
 }
