@@ -5,7 +5,6 @@ body {
 
 #container {
   width: 400px;
-  height: 150px;
   display: block;
   position: absolute;
   top: 50%;
@@ -23,7 +22,7 @@ body {
 
 #focusTask {
   width: 100%;
-  min-height: 28px;
+  min-height: 30px;
   margin-bottom: 12px;
   text-align: center;
   font-size: 1.4em;
@@ -54,7 +53,7 @@ h1 {
 }
 
 #task {
-  width: 400px;
+  width: 384px;
   min-height: 26px;
   margin-bottom: 12px;
   padding: 0 6px;
@@ -71,6 +70,25 @@ h1 {
   box-sizing: unset;
 }
 
-.btn:odd {
- margin-left: 10px ;
+.btn:focus {
+  outline-color: #9c97ef;
+}
+
+#startButton {
+  width: 392px;
+}
+
+#pause {
+  width: 190px;
+  background-color: #cfcfd8;
+  border-color: #cfcfd8;
+  color: #41414e;
+}
+
+#stop {
+  width: 190px;
+  margin-left: 4px;
+  background-color: #cfcfd8;
+  border-color: #cfcfd8;
+  color: #41414e;
 }

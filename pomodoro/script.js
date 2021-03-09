@@ -123,8 +123,8 @@ window.onload = function(){
 	//add to the DOM, to the div called "inputArea", "focusTask", "buttonArea"
 	document.getElementById("inputArea").appendChild(inputTask);
 	document.getElementById("inputArea").appendChild(startButton);	
-	document.getElementById("buttonArea").appendChild(stopButton);
 	document.getElementById("buttonArea").appendChild(pauseButton);
+	document.getElementById("buttonArea").appendChild(stopButton);
 
 	// hide stop button area
 	resetPage();
