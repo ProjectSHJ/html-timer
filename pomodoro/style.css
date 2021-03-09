@@ -1,3 +1,7 @@
+* {
+  transition: 200ms;
+}
+
 body {
   font-family: sans-serif;
   color: #41414e;
@@ -13,6 +17,10 @@ body {
   margin-top: -75px;
 }
 
+#container:hover #buttonArea {
+  opacity: 1;
+}
+
 #inputArea {
   display: flex;
   flex-direction: column;
@@ -26,7 +34,7 @@ body {
   margin-bottom: 12px;
   text-align: center;
   font-size: 1.4em;
-  color: rgb(70, 69, 69);
+  color: #b4bbc3;
   word-break: keep-all;
 }
 
@@ -44,6 +52,7 @@ body {
   align-items: center;
   justify-content: center;
   place-content: space-around;
+  opacity: 0;
 }
 
 h1 {
@@ -68,8 +77,12 @@ h1 {
   border-radius: 4px;
   border: 2px solid #5b53ed;
   box-sizing: unset;
+  cursor: pointer;
 }
 
+.btn:hover {
+  filter: opacity(.8);
+}
 .btn:focus {
   outline-color: #9c97ef;
 }
