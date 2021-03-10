@@ -91,14 +91,14 @@ h1 {
   width: 392px;
 }
 
-#pause {
+#pauseButton, #resumeButton {
   width: 190px;
   background-color: #cfcfd8;
   border-color: #cfcfd8;
   color: #41414e;
 }
 
-#stop {
+#stopButton {
   width: 190px;
   margin-left: 4px;
   background-color: #cfcfd8;

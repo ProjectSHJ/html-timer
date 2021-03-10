@@ -52,7 +52,7 @@ function startCountdown(){
 	intervalHandle = setInterval(tick, 1000);
 	
 	// show focusTask, button area
-	document.getElementById("focusArea").style.display = "flex";
+	document.getElementById("focusArea").style.display = "";
 	
 	// hide input area
 	document.getElementById("inputArea").style.display = "none";
@@ -71,7 +71,31 @@ function resetCountdown() {
 }
 
 function pauseCountdown() {
+	// grab seconds remaining
+	var timeDisplay = secondsRemaining;
 
+	// turn the seconds into mm:ss
+	var min = Math.floor(secondsRemaining / 60);
+	var sec = secondsRemaining - (min * 60);
+
+	// concatenate with colon
+	var message = min.toString() + ":" + sec;
+
+	// now change the display
+	timeDisplay.innerHTML = message;
+
+	// stop timer
+	clearInterval(intervalHandle);
+
+	// remove pause button
+	document.getElementById("pauseButton").style.display = "none";
+
+	// show resume button
+	document.getElementById("resumeButton").style.display = "";
+}
+
+function resumeCountdown() {
+	
 }
 
 function createFocusTask() {
@@ -82,7 +106,7 @@ function createFocusTask() {
 
 window.onload = function(){
 
-	// create input text box and give it an id of "min"
+	// create input text box and give it an id of "task"
 	var inputTask = document.createElement("input");
 	inputTask.setAttribute("id", "task");
 	inputTask.setAttribute("type", "text");
@@ -102,7 +126,7 @@ window.onload = function(){
 	
 	// create stop button
 	var stopButton = document.createElement("input");
-	stopButton.setAttribute("id", "stop");
+	stopButton.setAttribute("id", "stopButton");
 	stopButton.setAttribute("class", "btn");
 	stopButton.setAttribute("type", "button");
 	stopButton.setAttribute("value", "중지");
@@ -112,20 +136,34 @@ window.onload = function(){
 
 	// create pause button
 	var pauseButton = document.createElement("input");
-	pauseButton.setAttribute("id", "pause");
+	pauseButton.setAttribute("id", "pauseButton");
 	pauseButton.setAttribute("class", "btn");
 	pauseButton.setAttribute("type", "button");
 	pauseButton.setAttribute("value", "일시중지");
 	pauseButton.onclick = function() {
 		pauseCountdown();
 	}
+
+	// create resume button
+	var resumeButton = document.createElement("input");
+	resumeButton.setAttribute("id", "resumeButton");
+	resumeButton.setAttribute("class", "btn");
+	resumeButton.setAttribute("type","button");
+	resumeButton.setAttribute("value","이어하기");
+	resumeButton.onclick = function(){
+		resumeCountdown();
+	};
 	
 	//add to the DOM, to the div called "inputArea", "focusTask", "buttonArea"
 	document.getElementById("inputArea").appendChild(inputTask);
-	document.getElementById("inputArea").appendChild(startButton);	
+	document.getElementById("inputArea").appendChild(startButton);
 	document.getElementById("buttonArea").appendChild(pauseButton);
+	document.getElementById("buttonArea").appendChild(resumeButton);
 	document.getElementById("buttonArea").appendChild(stopButton);
 
-	// hide stop button area
+	// hide pause button
+	document.getElementById("resumeButton").style.display = "none";
+
+	// hide button area
 	resetPage();
 }
