@@ -4,13 +4,13 @@ var timerCount = 0;
 var focusCount = 0;
 var breakCount = 0;
 
-function resetPage(){
+function resetPage() {
 	document.getElementById("focusArea").style.display = "none";
 	document.getElementById("inputArea").style.display = "flex";
 
 }
 
-function tick(){
+function tick() {
 	// grab the h1
 	var timeDisplay = document.getElementById("time");
 
@@ -40,27 +40,24 @@ function tick(){
 					focusCount++;
 					NowBreak();
 					break15min();
-				}
-				else {
+				} else {
 					timerCount++;
 					console.log(timerCount);
 					focusCount++;
 					NowBreak();
 					break5min();
 				}
-			}
-			else {
+			} else {
 				timerCount++;
 				console.log(timerCount);
 				breakCount++;
 				NowFocus();
 				focus25min();
 			}
-		}
-		else {
+		} else {
 			// stop timer
 			clearInterval(intervalHandle);
-			
+
 			// Show Statistics
 			AddFocusCount();
 			AddBreakCount();
@@ -86,7 +83,7 @@ function NowFocus() {
 function NowBreak() {
 	var message = document.getElementById("CountArea");
 	message.innerHTML = "🧘 휴식 중";
-	document.title  = "🧘 휴식 중";
+	document.title = "🧘 휴식 중";
 }
 
 /*
@@ -97,14 +94,14 @@ function AddFocusCount() {
 	// clear CountArea
 	var countArea = document.getElementById("CountArea");
 	countArea.innerHTML = "";
-	
+
 	// create span with id
 	var focusSpan = document.createElement("span");
 	focusSpan.setAttribute("id", "focusCount");
 
 	// add to the DOM
 	document.getElementById("CountArea").appendChild(focusSpan);
-	
+
 	// change text
 	var message = document.getElementById("focusCount");
 	message.innerHTML = "🍅 집중 " + focusCount + "번";
@@ -127,17 +124,17 @@ function AddBreakCount() {
 Button Actions
 */
 
-function startCountdown(){
+function startCountdown() {
 	// start pomodoro
 	focus25min();
-	
+
 	// every second, call the "tick" function
 	// have to make it into a variable so that you can stop the interval later!!!
 	intervalHandle = setInterval(tick, 1000);
 
 	// show focusTask, button area
 	document.getElementById("focusArea").style.display = "";
-	
+
 	// hide input area
 	document.getElementById("inputArea").style.display = "none";
 
@@ -153,7 +150,7 @@ function resetCountdown() {
 
 	// grab the h1
 	var timeDisplay = document.getElementById("time");
-	
+
 	// change value to 0:00
 	timeDisplay.innerHTML = "25:00";
 	document.getElementById("time").style.color = "#41414e";
@@ -161,6 +158,9 @@ function resetCountdown() {
 	// Show Statistics
 	AddFocusCount();
 	AddBreakCount();
+
+	// rest title
+	document.title = "Pomodoro Timer";
 
 	// reset Focus, Break Count
 	focusCount = 0;
@@ -225,7 +225,7 @@ function break5min() {
 
 	// how many seconds
 	secondsRemaining = minutes * 60;
-	
+
 	// style timer
 	document.getElementById("time").style.color = "#00a469"
 }
@@ -245,33 +245,33 @@ function break15min() {
 Add Inputs, Buttons to DOM
 */
 
-window.onload = function(){
+window.onload = function () {
 
 	// create input text box and give it an id of "task"
 	var inputTask = document.createElement("input");
 	inputTask.setAttribute("id", "task");
 	inputTask.setAttribute("type", "text");
-   	inputTask.setAttribute("autocomplete", "off");
-	inputTask.setAttribute("placeholder", "What do you about to focus about?");
-	
+	inputTask.setAttribute("autocomplete", "off");
+	inputTask.setAttribute("placeholder", "어떤 Task에 집중하나요?");
+
 	//create a button
 	var startButton = document.createElement("input");
 	startButton.setAttribute("id", "startButton");
 	startButton.setAttribute("class", "btn");
-	startButton.setAttribute("type","button");
-	startButton.setAttribute("value","시작");
-	startButton.onclick = function(){
+	startButton.setAttribute("type", "button");
+	startButton.setAttribute("value", "시작");
+	startButton.onclick = function () {
 		startCountdown();
 		createFocusTask();
 	};
-	
+
 	// create stop button
 	var stopButton = document.createElement("input");
 	stopButton.setAttribute("id", "stopButton");
 	stopButton.setAttribute("class", "btn");
 	stopButton.setAttribute("type", "button");
 	stopButton.setAttribute("value", "중지");
-	stopButton.onclick = function() {
+	stopButton.onclick = function () {
 		resetCountdown();
 	}
 
@@ -281,7 +281,7 @@ window.onload = function(){
 	pauseButton.setAttribute("class", "btn");
 	pauseButton.setAttribute("type", "button");
 	pauseButton.setAttribute("value", "일시중지");
-	pauseButton.onclick = function() {
+	pauseButton.onclick = function () {
 		pauseCountdown();
 	}
 
@@ -289,12 +289,12 @@ window.onload = function(){
 	var resumeButton = document.createElement("input");
 	resumeButton.setAttribute("id", "resumeButton");
 	resumeButton.setAttribute("class", "btn");
-	resumeButton.setAttribute("type","button");
-	resumeButton.setAttribute("value","이어하기");
-	resumeButton.onclick = function(){
+	resumeButton.setAttribute("type", "button");
+	resumeButton.setAttribute("value", "이어하기");
+	resumeButton.onclick = function () {
 		resumeCountdown();
 	};
-	
+
 	//add to the DOM, to the div called "inputArea", "focusTask", "buttonArea"
 	document.getElementById("inputArea").appendChild(inputTask);
 	document.getElementById("inputArea").appendChild(startButton);
