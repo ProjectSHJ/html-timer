@@ -160,6 +160,10 @@ function resetCountdown() {
 	// Show Statistics
 	AddFocusCount();
 	AddBreakCount();
+
+	// reset Focus, Break Count
+	focusCount = 0;
+	breakCount = 0;
 }
 
 function pauseCountdown() {
@@ -206,30 +210,30 @@ function createFocusTask() {
 */
 
 function focus25min() {
-	var minutes = 3;
+	var minutes = 25;
 
 	// how many seconds
-	secondsRemaining = minutes * 1;
+	secondsRemaining = minutes * 60;
 
 	// style timer
 	document.getElementById("time").style.color = "#e86666"
 }
 
 function break5min() {
-	var minutes = 1;
+	var minutes = 5;
 
 	// how many seconds
-	secondsRemaining = minutes * 1;
+	secondsRemaining = minutes * 60;
 	
 	// style timer
 	document.getElementById("time").style.color = "#00a469"
 }
 
 function break15min() {
-	var minutes = 2;
+	var minutes = 15;
 
 	// how many seconds
-	secondsRemaining = minutes * 1;
+	secondsRemaining = minutes * 60;
 
 	// style timer
 	document.getElementById("time").style.color = "#00a8a66"
