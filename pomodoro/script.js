@@ -1,5 +1,6 @@
 var secondsRemaining;
 var intervalHandle;
+var focusCount = 0;
 
 function resetPage(){
 	document.getElementById("focusArea").style.display = "none";
@@ -26,31 +27,28 @@ function tick(){
 	// now change the display
 	timeDisplay.innerHTML = message;
 
-	// stop is down to zero
-	if (secondsRemaining === 0){
-		// alert("Done!");
+	// stop when time is down to zero
+	if (secondsRemaining == 0) {
 		clearInterval(intervalHandle);
-		resetPage();
 	}
-
+	
 	//subtract from seconds remaining
 	secondsRemaining--;
-
 }
 
+
+/*
+Button Actions
+*/
+
 function startCountdown(){
-
-	// [[EDIT HERE]] get countents of the "minutes" text box
-	// var minutes = document.getElementById("minutes").value;
-	var minutes = 2;
-
-	// how many seconds
-	secondsRemaining = minutes * 60;
+	// start pomodoro
+	focus25min();
 	
 	// every second, call the "tick" function
 	// have to make it into a variable so that you can stop the interval later!!!
 	intervalHandle = setInterval(tick, 1000);
-	
+
 	// show focusTask, button area
 	document.getElementById("focusArea").style.display = "";
 	
@@ -61,13 +59,14 @@ function startCountdown(){
 function resetCountdown() {
 	// alert("timer stopped");
 	clearInterval(intervalHandle);
+	focusCount = 0;
 	resetPage();
 
 	// grab the h1
 	var timeDisplay = document.getElementById("time");
 	
 	// change value to 0:00
-	timeDisplay.innerHTML = "0:00";
+	timeDisplay.innerHTML = "25:00";
 }
 
 function pauseCountdown() {
@@ -107,6 +106,67 @@ function createFocusTask() {
 	var x = document.getElementById("task").value;
 	document.getElementById("focusTask").innerHTML = x;
 }
+
+
+/*
+25 min focus, 5 min short break, 15 min long break
+*/
+
+function focus25min() {
+	var minutes = .25;
+
+	// how many seconds
+	secondsRemaining = minutes * 60;
+}
+
+function break5min() {
+	var minutes = .05;
+
+	// how many seconds
+	secondsRemaining = minutes * 60;
+}
+
+function break15min() {
+	var minutes = .15;
+
+	// how many seconds
+	secondsRemaining = minutes * 60;
+}
+
+// call focus or break timer when time is down to zero
+// while (focusCount < 11){
+// 	if (focusCount % 2 == 0) {
+// 		if (focusCount % 10 == 8) {
+// 			if (secondsRemaining === 0){
+// 				focusCount++;
+// 				console.log(focusCount);
+// 				break15min();
+// 				intervalHandle = setInterval(tick, 1000);
+// 			}
+// 		}
+// 		else {
+// 			if (secondsRemaining === 0){
+// 				focusCount++;
+// 				console.log(focusCount);
+// 				break5min();
+// 				intervalHandle = setInterval(tick, 1000);
+// 			}
+// 		}
+// 	}
+// 	else {
+// 		if (secondsRemaining === 0){
+// 			focusCount++;
+// 			console.log(focusCount);
+// 			focus25min();
+// 			intervalHandle = setInterval(tick, 1000);
+// 		}
+// 	}
+// }
+
+
+/*
+Add Inputs, Buttons to DOM
+*/
 
 window.onload = function(){
 
