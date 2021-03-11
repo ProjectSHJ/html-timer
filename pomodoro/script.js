@@ -156,6 +156,7 @@ function resetCountdown() {
 	
 	// change value to 0:00
 	timeDisplay.innerHTML = "25:00";
+	document.getElementById("time").style.color = "#41414e";
 
 	// Show Statistics
 	AddFocusCount();
