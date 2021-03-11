@@ -42,7 +42,7 @@ function startCountdown(){
 
 	// [[EDIT HERE]] get countents of the "minutes" text box
 	// var minutes = document.getElementById("minutes").value;
-	var minutes = 1;
+	var minutes = 2;
 
 	// how many seconds
 	secondsRemaining = minutes * 60;
@@ -71,31 +71,35 @@ function resetCountdown() {
 }
 
 function pauseCountdown() {
-	// grab seconds remaining
-	var timeDisplay = secondsRemaining;
-
-	// turn the seconds into mm:ss
-	var min = Math.floor(secondsRemaining / 60);
-	var sec = secondsRemaining - (min * 60);
-
-	// concatenate with colon
-	var message = min.toString() + ":" + sec;
-
-	// now change the display
-	timeDisplay.innerHTML = message;
-
 	// stop timer
 	clearInterval(intervalHandle);
 
-	// remove pause button
+	// style timer
+	document.getElementById("time").style.textDecoration = "line-through";
+	document.getElementById("time").style.opacity = "0.5";
+
+	// remove pause, stop button
 	document.getElementById("pauseButton").style.display = "none";
+	document.getElementById("stopButton").style.display = "none";
 
 	// show resume button
 	document.getElementById("resumeButton").style.display = "";
 }
 
 function resumeCountdown() {
-	
+	// restart timer
+	intervalHandle = setInterval(tick, 1000);
+
+	// restyle timer
+	document.getElementById("time").style.textDecoration = "";
+	document.getElementById("time").style.opacity = "";
+
+	// remove resume button
+	document.getElementById("resumeButton").style.display = "none";
+
+	// show pause, stop button
+	document.getElementById("pauseButton").style.display = "";
+	document.getElementById("stopButton").style.display = "";
 }
 
 function createFocusTask() {
