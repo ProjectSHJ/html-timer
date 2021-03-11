@@ -1,6 +1,8 @@
 var secondsRemaining;
 var intervalHandle;
+var timerCount = 0;
 var focusCount = 0;
+var breakCount = 0;
 
 function resetPage(){
 	document.getElementById("focusArea").style.display = "none";
@@ -28,14 +30,98 @@ function tick(){
 	timeDisplay.innerHTML = message;
 
 	// stop when time is down to zero
+	// call focus or break timer when time is down to zero
 	if (secondsRemaining == 0) {
-		clearInterval(intervalHandle);
+		if (timerCount < 11) {
+			if (timerCount % 2 == 0) {
+				if (timerCount % 10 == 8) {
+					timerCount++;
+					console.log(timerCount);
+					focusCount++;
+					NowBreak();
+					break15min();
+				}
+				else {
+					timerCount++;
+					console.log(timerCount);
+					focusCount++;
+					NowBreak();
+					break5min();
+				}
+			}
+			else {
+				timerCount++;
+				console.log(timerCount);
+				breakCount++;
+				NowFocus();
+				focus25min();
+			}
+		}
+		else {
+			// stop timer
+			clearInterval(intervalHandle);
+			
+			// Show Statistics
+			AddFocusCount();
+			AddBreakCount();
+			document.title = "Pomodoro Timer";
+			document.getElementById("time").style.color = "#41414e";
+		}
 	}
-	
+
 	//subtract from seconds remaining
 	secondsRemaining--;
 }
 
+/*
+Show current timer status
+*/
+
+function NowFocus() {
+	var message = document.getElementById("CountArea");
+	message.innerHTML = "🍅 집중 중";
+	document.title = "🍅 집중 중";
+}
+
+function NowBreak() {
+	var message = document.getElementById("CountArea");
+	message.innerHTML = "🧘 휴식 중";
+	document.title  = "🧘 휴식 중";
+}
+
+/*
+Add Focus Count, Break Count
+*/
+
+function AddFocusCount() {
+	// clear CountArea
+	var countArea = document.getElementById("CountArea");
+	countArea.innerHTML = "";
+	
+	// create span with id
+	var focusSpan = document.createElement("span");
+	focusSpan.setAttribute("id", "focusCount");
+
+	// add to the DOM
+	document.getElementById("CountArea").appendChild(focusSpan);
+	
+	// change text
+	var message = document.getElementById("focusCount");
+	message.innerHTML = "🍅 집중 " + focusCount + "번";
+}
+
+function AddBreakCount() {
+	// create span with id
+	var breakSpan = document.createElement("span");
+	breakSpan.setAttribute("id", "breakCount");
+
+	// add to the DOM
+	document.getElementById("CountArea").appendChild(breakSpan);
+
+	// change text
+	var message = document.getElementById("breakCount");
+	message.innerHTML = "🧘 휴식 " + breakCount + "번";
+}
 
 /*
 Button Actions
@@ -54,12 +140,15 @@ function startCountdown(){
 	
 	// hide input area
 	document.getElementById("inputArea").style.display = "none";
+
+	// set countArea message
+	NowFocus();
 }
 
 function resetCountdown() {
 	// alert("timer stopped");
 	clearInterval(intervalHandle);
-	focusCount = 0;
+	timerCount = 0;
 	resetPage();
 
 	// grab the h1
@@ -67,6 +156,10 @@ function resetCountdown() {
 	
 	// change value to 0:00
 	timeDisplay.innerHTML = "25:00";
+
+	// Show Statistics
+	AddFocusCount();
+	AddBreakCount();
 }
 
 function pauseCountdown() {
@@ -113,55 +206,34 @@ function createFocusTask() {
 */
 
 function focus25min() {
-	var minutes = .25;
+	var minutes = 3;
 
 	// how many seconds
-	secondsRemaining = minutes * 60;
+	secondsRemaining = minutes * 1;
+
+	// style timer
+	document.getElementById("time").style.color = "#e86666"
 }
 
 function break5min() {
-	var minutes = .05;
+	var minutes = 1;
 
 	// how many seconds
-	secondsRemaining = minutes * 60;
+	secondsRemaining = minutes * 1;
+	
+	// style timer
+	document.getElementById("time").style.color = "#00a469"
 }
 
 function break15min() {
-	var minutes = .15;
+	var minutes = 2;
 
 	// how many seconds
-	secondsRemaining = minutes * 60;
-}
+	secondsRemaining = minutes * 1;
 
-// call focus or break timer when time is down to zero
-// while (focusCount < 11){
-// 	if (focusCount % 2 == 0) {
-// 		if (focusCount % 10 == 8) {
-// 			if (secondsRemaining === 0){
-// 				focusCount++;
-// 				console.log(focusCount);
-// 				break15min();
-// 				intervalHandle = setInterval(tick, 1000);
-// 			}
-// 		}
-// 		else {
-// 			if (secondsRemaining === 0){
-// 				focusCount++;
-// 				console.log(focusCount);
-// 				break5min();
-// 				intervalHandle = setInterval(tick, 1000);
-// 			}
-// 		}
-// 	}
-// 	else {
-// 		if (secondsRemaining === 0){
-// 			focusCount++;
-// 			console.log(focusCount);
-// 			focus25min();
-// 			intervalHandle = setInterval(tick, 1000);
-// 		}
-// 	}
-// }
+	// style timer
+	document.getElementById("time").style.color = "#00a8a66"
+}
 
 
 /*
