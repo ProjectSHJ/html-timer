@@ -56,6 +56,7 @@ function tick() {
 			}
 		} else {
 			// stop timer
+			alert("포모도로 5회 완료 🎉");
 			clearInterval(intervalHandle);
 
 			// Show Statistics
