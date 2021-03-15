@@ -7,18 +7,26 @@ body {
   color: #41414e;
 }
 
-#container {
-  width: 400px;
-  display: block;
+#centerContainer {
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-left: -200px;
-  margin-top: -75px;
+  transform: translate(-50%, -50%);
 }
 
-#container:hover #buttonArea {
+#columnContainer {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+#columnContainer:hover #buttonArea {
   opacity: 1;
+}
+
+#rowContainer {
+  display: flex;
+  flex-direction: row;
 }
 
 #inputArea {
@@ -42,8 +50,29 @@ body {
   margin-bottom: 12px;
   text-align: center;
   font-size: 1.2em;
-  color: #b4bbc3;
   word-break: keep-all;
+}
+
+#focusHistory {
+  width: 320px;
+  margin-left: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #eff2f5;
+  padding: 10px 16px;
+  border-radius: 10px;
+  box-shadow: 0 14px 10px rgb(0,0,0,0.04);
+  color: #6b6b77;
+}
+
+#focusHistory ul {
+  padding-inline-start: 20px;
+  line-height: 24px;
+  margin: 0;
+}
+
+#focusHistory li {
+  font-size: 14px;
 }
 
 #CountArea {
@@ -72,7 +101,13 @@ body {
 h1 {
   font-size: 5em;
   text-align: center;
-  margin: 0;
+  margin: 0 0 10px 0;
+}
+
+h3 {
+  margin: 4px 0 10px 0;
+  font-size: 1em;
+  line-height: 20px;
 }
 
 #task {

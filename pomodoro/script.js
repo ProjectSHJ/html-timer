@@ -3,11 +3,11 @@ var intervalHandle;
 var timerCount = 0;
 var focusCount = 0;
 var breakCount = 0;
+var taskCount = 0;
 
 function resetPage() {
 	document.getElementById("focusArea").style.display = "none";
 	document.getElementById("inputArea").style.display = "flex";
-
 }
 
 function tick() {
@@ -105,6 +105,13 @@ function AddFocusCount() {
 	// change text
 	var message = document.getElementById("focusCount");
 	message.innerHTML = "🍅 집중 " + focusCount + "번";
+
+	// grab taskHistory li with taskCount
+	var taskLi = document.getElementById("task"+taskCount);
+	
+	// create span with class, add to DOM, Change text
+	taskLi.appendChild(document.createTextNode(" (🍅 " + focusCount));
+
 }
 
 function AddBreakCount() {
@@ -118,6 +125,12 @@ function AddBreakCount() {
 	// change text
 	var message = document.getElementById("breakCount");
 	message.innerHTML = "🧘 휴식 " + breakCount + "번";
+	
+	// grab taskHistory li with taskCount
+	var taskLi = document.getElementById("task"+taskCount);
+	
+	// create span with class, add to DOM, Change text
+	taskLi.appendChild(document.createTextNode(" 🧘 " + breakCount + ")"));
 }
 
 /*
@@ -165,6 +178,9 @@ function resetCountdown() {
 	// reset Focus, Break Count
 	focusCount = 0;
 	breakCount = 0;
+
+	// add taskCount
+	taskCount++;
 }
 
 function pauseCountdown() {
@@ -200,9 +216,21 @@ function resumeCountdown() {
 }
 
 function createFocusTask() {
+	// show focusHistory area if focusHistory is display none
+	if (document.getElementById("focusHistory").style.display = "none") {
+		document.getElementById("focusHistory").style.display = ""
+	}
+
 	// get input value from inputTask input to focusTask div
 	var x = document.getElementById("task").value;
 	document.getElementById("focusTask").innerHTML = x;
+
+	// add to Task History
+	var ul = document.getElementById("historyUl");
+	var li = document.createElement("li");
+	li.appendChild(document.createTextNode(x));
+	li.setAttribute("id", "task"+taskCount);
+	ul.appendChild(li);
 }
 
 
@@ -307,4 +335,8 @@ window.onload = function () {
 
 	// hide button area
 	resetPage();
+	function hideFocusHistory() {
+		document.getElementById("focusHistory").style.display = "none";
+	}
+	hideFocusHistory();
 }
