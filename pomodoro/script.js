@@ -151,6 +151,10 @@ function startCountdown() {
 	// hide input area
 	document.getElementById("inputArea").style.display = "none";
 
+	// set Task History Area opacity to 0
+	// show Task History
+	document.getElementById("focusHistory").style.opacity = "";
+
 	// set countArea message
 	NowFocus();
 }
@@ -171,6 +175,9 @@ function resetCountdown() {
 	// Show Statistics
 	AddFocusCount();
 	AddBreakCount();
+
+	// show Task History
+	document.getElementById("focusHistory").style.opacity = "1";
 
 	// rest title
 	document.title = "Pomodoro Timer";

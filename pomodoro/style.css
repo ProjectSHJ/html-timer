@@ -24,6 +24,10 @@ body {
   opacity: 1;
 }
 
+#columnContainer:hover #focusHistory {
+  opacity: 1;
+}
+
 #rowContainer {
   display: flex;
   flex-direction: row;
@@ -51,18 +55,23 @@ body {
   text-align: center;
   font-size: 1.2em;
   word-break: keep-all;
+  color: #b4bbc3;
 }
 
 #focusHistory {
-  width: 320px;
-  margin-left: 10px;
+  width: 368px;
   max-height: 200px;
   overflow-y: auto;
   background-color: #eff2f5;
   padding: 10px 16px;
+  margin: 0 0 10px 0;
   border-radius: 10px;
   box-shadow: 0 14px 10px rgb(0,0,0,0.04);
   color: #6b6b77;
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+  position: absolute;
+  top: 220px;
 }
 
 #focusHistory ul {
@@ -72,7 +81,7 @@ body {
 }
 
 #focusHistory li {
-  font-size: 14px;
+  font-size: 0.8em;
 }
 
 #CountArea {
@@ -96,6 +105,7 @@ body {
   justify-content: center;
   place-content: space-around;
   opacity: 0;
+  transition: opacity 200ms ease-in-out;
 }
 
 h1 {
