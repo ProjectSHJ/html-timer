@@ -230,6 +230,12 @@ function createFocusTask() {
 
 	// get input value from inputTask input to focusTask div
 	var x = document.getElementById("task").value;
+	// if input value is empty, set to placeholder string
+	if (x == "") {
+		x = "할일 " + taskCount;
+	}
+	else {
+	}
 	document.getElementById("focusTask").innerHTML = x;
 
 	// add to Task History
