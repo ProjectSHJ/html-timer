@@ -11,7 +11,7 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -113px);
 }
 
 #columnContainer {
@@ -24,7 +24,7 @@ body {
   opacity: 1;
 }
 
-#columnContainer:hover #focusHistory {
+#centerContainer:hover #focusHistory {
   opacity: 1;
 }
 
@@ -64,14 +64,12 @@ body {
   overflow-y: auto;
   background-color: #eff2f5;
   padding: 10px 16px;
-  margin: 0 0 10px 0;
+  margin: 10px 0 10px 0;
   border-radius: 10px;
   box-shadow: 0 14px 10px rgb(0,0,0,0.04);
   color: #6b6b77;
   opacity: 0;
   transition: opacity 200ms ease-out;
-  position: absolute;
-  top: 220px;
 }
 
 #focusHistory ul {
