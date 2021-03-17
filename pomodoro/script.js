@@ -3,11 +3,11 @@ var intervalHandle;
 var timerCount = 0;
 var focusCount = 0;
 var breakCount = 0;
+var taskCount = 0;
 
 function resetPage() {
 	document.getElementById("focusArea").style.display = "none";
 	document.getElementById("inputArea").style.display = "flex";
-
 }
 
 function tick() {
@@ -105,6 +105,13 @@ function AddFocusCount() {
 	// change text
 	var message = document.getElementById("focusCount");
 	message.innerHTML = "🍅 집중 " + focusCount + "번";
+
+	// grab taskHistory li with taskCount
+	var taskLi = document.getElementById("task"+taskCount);
+	
+	// create span with class, add to DOM, Change text
+	taskLi.appendChild(document.createTextNode(" (🍅 " + focusCount));
+
 }
 
 function AddBreakCount() {
@@ -118,6 +125,12 @@ function AddBreakCount() {
 	// change text
 	var message = document.getElementById("breakCount");
 	message.innerHTML = "🧘 휴식 " + breakCount + "번";
+	
+	// grab taskHistory li with taskCount
+	var taskLi = document.getElementById("task"+taskCount);
+	
+	// create span with class, add to DOM, Change text
+	taskLi.appendChild(document.createTextNode(" 🧘 " + breakCount + ")"));
 }
 
 /*
@@ -137,6 +150,10 @@ function startCountdown() {
 
 	// hide input area
 	document.getElementById("inputArea").style.display = "none";
+
+	// set Task History Area opacity to 0
+	// show Task History
+	document.getElementById("focusHistory").style.opacity = "";
 
 	// set countArea message
 	NowFocus();
@@ -159,12 +176,18 @@ function resetCountdown() {
 	AddFocusCount();
 	AddBreakCount();
 
+	// show Task History
+	document.getElementById("focusHistory").style.opacity = "1";
+
 	// rest title
 	document.title = "Pomodoro Timer";
 
 	// reset Focus, Break Count
 	focusCount = 0;
 	breakCount = 0;
+
+	// add taskCount
+	taskCount++;
 }
 
 function pauseCountdown() {
@@ -200,9 +223,27 @@ function resumeCountdown() {
 }
 
 function createFocusTask() {
+	// show focusHistory area if focusHistory is display none
+	if (document.getElementById("focusHistory").style.display = "none") {
+		document.getElementById("focusHistory").style.display = ""
+	}
+
 	// get input value from inputTask input to focusTask div
 	var x = document.getElementById("task").value;
+	// if input value is empty, set to placeholder string
+	if (x == "") {
+		x = "할일 " + taskCount;
+	}
+	else {
+	}
 	document.getElementById("focusTask").innerHTML = x;
+
+	// add to Task History
+	var ul = document.getElementById("historyUl");
+	var li = document.createElement("li");
+	li.appendChild(document.createTextNode(x));
+	li.setAttribute("id", "task"+taskCount);
+	ul.appendChild(li);
 }
 
 
@@ -239,7 +280,6 @@ function break15min() {
 	// style timer
 	document.getElementById("time").style.color = "#00a8a66"
 }
-
 
 /*
 Add Inputs, Buttons to DOM
@@ -306,5 +346,9 @@ window.onload = function () {
 	document.getElementById("resumeButton").style.display = "none";
 
 	// hide button area
+	function hideFocusHistory() {
+		document.getElementById("focusHistory").style.display = "none";
+	}
+	hideFocusHistory();
 	resetPage();
 }
