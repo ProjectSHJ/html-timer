@@ -281,7 +281,6 @@ function break15min() {
 	document.getElementById("time").style.color = "#00a8a66"
 }
 
-
 /*
 Add Inputs, Buttons to DOM
 */
@@ -347,9 +346,9 @@ window.onload = function () {
 	document.getElementById("resumeButton").style.display = "none";
 
 	// hide button area
-	resetPage();
 	function hideFocusHistory() {
 		document.getElementById("focusHistory").style.display = "none";
 	}
 	hideFocusHistory();
+	resetPage();
 }
