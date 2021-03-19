@@ -36,23 +36,23 @@ function tick() {
 			if (timerCount % 2 == 0) {
 				if (timerCount % 10 == 8) {
 					timerCount++;
-					console.log(timerCount);
 					focusCount++;
 					NowBreak();
 					break15min();
+					alert("[🧘] 집중 끝, 15분 휴식 시작");
 				} else {
 					timerCount++;
-					console.log(timerCount);
 					focusCount++;
 					NowBreak();
 					break5min();
+					alert("[🧘] 집중 끝, 5분 휴식 시작");
 				}
 			} else {
 				timerCount++;
-				console.log(timerCount);
 				breakCount++;
 				NowFocus();
 				focus25min();
+				alert("[🍅] 휴식 끝, 집중 시작");
 			}
 		} else {
 			// stop timer
