@@ -3,7 +3,7 @@ var intervalHandle;
 var timerCount = 0;
 var focusCount = 0;
 var breakCount = 0;
-var taskCount = 0;
+var taskCount = 1;
 
 function resetPage() {
 	document.getElementById("focusArea").style.display = "none";
@@ -62,7 +62,7 @@ function tick() {
 			AddFocusCount();
 			AddBreakCount();
 			document.title = "Pomodoro Timer";
-			document.getElementById("time").style.color = "#41414e";
+			document.getElementById("time").style.color = "var(--color_grey_200)";
 		}
 	}
 
@@ -170,7 +170,7 @@ function resetCountdown() {
 
 	// change value to 0:00
 	timeDisplay.innerHTML = "25:00";
-	document.getElementById("time").style.color = "#41414e";
+	document.getElementById("time").style.color = "var(--color_normal)";
 
 	// Show Statistics
 	AddFocusCount();
@@ -258,7 +258,7 @@ function focus25min() {
 	secondsRemaining = minutes * 60;
 
 	// style timer
-	document.getElementById("time").style.color = "#e86666"
+	document.getElementById("time").style.color = "var(--color_focus)";
 }
 
 function break5min() {
@@ -268,7 +268,7 @@ function break5min() {
 	secondsRemaining = minutes * 60;
 
 	// style timer
-	document.getElementById("time").style.color = "#00a469"
+	document.getElementById("time").style.color = "var(--color_break)";
 }
 
 function break15min() {
@@ -278,7 +278,7 @@ function break15min() {
 	secondsRemaining = minutes * 60;
 
 	// style timer
-	document.getElementById("time").style.color = "#00a8a66"
+	document.getElementById("time").style.color = "var(--color_longBreak)";
 }
 
 /*
@@ -351,4 +351,8 @@ window.onload = function () {
 	}
 	hideFocusHistory();
 	resetPage();
+}
+
+function toggleTheme() {
+
 }
