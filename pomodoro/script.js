@@ -4,15 +4,22 @@ var timerCount = 0;
 var focusCount = 0;
 var breakCount = 0;
 var taskCount = 0;
+var startTS = Date.now();
 
 function resetPage() {
 	document.getElementById("focusArea").style.display = "none";
 	document.getElementById("inputArea").style.display = "flex";
 }
 
+// !!! startTS 정의
+
+
 function tick() {
 	// grab the h1
 	var timeDisplay = document.getElementById("time");
+
+	// !!! Gap Seconds 정의
+
 
 	// turn the seconds into mm:ss
 	var min = Math.floor(secondsRemaining / 60);
