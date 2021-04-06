@@ -1,9 +1,9 @@
 var secondsRemaining;
 var intervalHandle;
-var timerCount = 0;
+var timerCount = 1;
 var focusCount = 0;
 var breakCount = 0;
-var taskCount = 0;
+var taskCount = 1;
 
 function resetPage() {
 	document.getElementById("focusArea").style.display = "none";
@@ -32,37 +32,34 @@ function tick() {
 	// stop when time is down to zero
 	// call focus or break timer when time is down to zero
 	if (secondsRemaining == 0) {
-		if (timerCount < 11) {
+		if (timerCount < 8) {
 			if (timerCount % 2 == 0) {
-				if (timerCount % 10 == 8) {
-					timerCount++;
-					focusCount++;
-					NowBreak();
-					break15min();
-					alert("[🧘] 집중 끝, 15분 휴식 시작");
-				} else {
-					timerCount++;
-					focusCount++;
-					NowBreak();
-					break5min();
-					alert("[🧘] 집중 끝, 5분 휴식 시작");
-				}
-			} else {
-				timerCount++;
-				breakCount++;
 				NowFocus();
 				focus25min();
+				timerCount++;
+				breakCount++;
 				alert("[🍅] 휴식 끝, 집중 시작");
+			} else {
+				if (breakCount == 3) {
+					Now15Break();
+					break15min();
+					timerCount++;
+					focusCount++;
+					alert("[🧘] 집중 끝, 15분 휴식 시작");
+				} else {
+					NowBreak();
+					break5min();
+					timerCount++;
+					focusCount++;
+					alert("[🧘] 집중 끝, 5분 휴식 시작");
+				}
 			}
 		} else {
-			// stop timer
-			clearInterval(intervalHandle);
-
-			// Show Statistics
-			AddFocusCount();
-			AddBreakCount();
-			document.title = "Pomodoro Timer";
-			document.getElementById("time").style.color = "#41414e";
+			timerCount++;
+			breakCount++;
+			// Reset Timer, & Show Statistics
+			resetCountdown();
+			alert("🎉 포모도로 1사이클(130분)을 완료했어요!") 
 		}
 	}
 
@@ -84,6 +81,12 @@ function NowBreak() {
 	var message = document.getElementById("CountArea");
 	message.innerHTML = "🧘 휴식 중";
 	document.title = "🧘 휴식 중";
+}
+
+function Now15Break() {
+	var message = document.getElementById("CountArea");
+	message.innerHTML = "🧘 긴 휴식 중";
+	document.title = "🧘 긴 휴식 중";
 }
 
 /*
@@ -170,7 +173,7 @@ function resetCountdown() {
 
 	// change value to 0:00
 	timeDisplay.innerHTML = "25:00";
-	document.getElementById("time").style.color = "#41414e";
+	document.getElementById("time").style.color = "var(--color_normal)";
 
 	// Show Statistics
 	AddFocusCount();
@@ -258,7 +261,7 @@ function focus25min() {
 	secondsRemaining = minutes * 60;
 
 	// style timer
-	document.getElementById("time").style.color = "#e86666"
+	document.getElementById("time").style.color = "var(--color_focus)";
 }
 
 function break5min() {
@@ -268,7 +271,7 @@ function break5min() {
 	secondsRemaining = minutes * 60;
 
 	// style timer
-	document.getElementById("time").style.color = "#00a469"
+	document.getElementById("time").style.color = "var(--color_break)";
 }
 
 function break15min() {
@@ -278,7 +281,7 @@ function break15min() {
 	secondsRemaining = minutes * 60;
 
 	// style timer
-	document.getElementById("time").style.color = "#00a8a66"
+	document.getElementById("time").style.color = "var(--color_longBreak)";
 }
 
 /*
@@ -351,4 +354,8 @@ window.onload = function () {
 	}
 	hideFocusHistory();
 	resetPage();
+}
+
+function toggleTheme() {
+
 }

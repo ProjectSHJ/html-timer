@@ -1,10 +1,49 @@
+/* Light mode */
+@media (prefers-color-scheme: light) {
+  :root {
+    --background_color_theme: white;
+    --background_color_z100: #eff2f5;
+    --background_color_z200: #cfcfd8;
+    --color_normal: #41414e;
+    --color_light: #6b6b77;
+  }
+}
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background_color_theme: black;
+    --background_color_z100: #1e1e22;
+    --background_color_z200: #3f4647;
+    --background_color_100: #eff2f5;
+    --color_normal: #f3f4f5;
+    --color_light: #b4bbc3;
+  }
+}
+
+/* Global Color Token */
+:root {
+  --color_grey100: #f3f4f5;
+  --color_grey200: #eff2f5;
+  --color_accent: #5b53ed;
+  --color_accent_tint: #9c97ef;
+  --color_focus: #e86666;
+  --color_break: #00a469;
+  --color_longBreak: #039158;
+}
+
 * {
   transition: 200ms;
 }
 
 body {
   font-family: sans-serif;
-  color: #41414e;
+  background-color: var(--background_color_theme);
+  color: var(--color_normal);
+}
+
+input:focus {
+  border: 2px solid var(--color_accent);
+  outline-style: revert;
 }
 
 #centerContainer {
@@ -62,14 +101,14 @@ body {
   width: 368px;
   max-height: 200px;
   overflow-y: auto;
-  background-color: #eff2f5;
   padding: 10px 16px;
   margin: 10px 0 10px 0;
   border-radius: 10px;
   box-shadow: 0 14px 10px rgb(0,0,0,0.04);
-  color: #6b6b77;
   opacity: 0;
   transition: opacity 200ms ease-out;
+  background-color: var(--background_color_z100);
+  color: var(--color_light);
 }
 
 #focusHistory ul {
@@ -87,7 +126,7 @@ body {
   min-height: 30px;
   text-align: center;
   font-size: 0.8em;
-  color: #6b6b77;
+  color: var(--color_light);
   word-break: keep-all;
   line-height: 30px;
 }
@@ -125,45 +164,37 @@ h3 {
   padding: 0 6px;
 }
 
-#task:focus {
-  outline-style: revert;
-  outline: 1px solid #5b53ed;
-}
-
 .btn {
-  width: 100%;
   height: 26px;
   padding: 1px 2px;
-  background-color: #5b53ed;
-  color: white;
   border-radius: 4px;
-  border: 2px solid #5b53ed;
   box-sizing: unset;
   cursor: pointer;
+  background-color: var(--background_color_z200);
+  border: 2px solid var(--background_color_z200);
+  color: var(--color_normal);
 }
 
 .btn:hover {
   filter: opacity(.8);
 }
+
 .btn:focus {
-  outline-color: #9c97ef;
+  outline-color: var(--color_accent_tint);
 }
 
 #startButton {
   width: 392px;
+  background-color: var(--color_accent);
+  border: 2px solid var(--color_accent);
+  color: var(--color_grey100);
 }
 
 #pauseButton, #resumeButton {
   width: 190px;
-  background-color: #cfcfd8;
-  border-color: #cfcfd8;
-  color: #41414e;
 }
 
 #stopButton {
   width: 190px;
   margin-left: 4px;
-  background-color: #cfcfd8;
-  border-color: #cfcfd8;
-  color: #41414e;
 }
