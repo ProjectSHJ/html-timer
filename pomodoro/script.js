@@ -5,6 +5,9 @@ var focusCount = 0;
 var breakCount = 0;
 var taskCount = 1;
 
+
+// Timer
+
 function resetPage() {
 	document.getElementById("focusArea").style.display = "none";
 	document.getElementById("inputArea").style.display = "flex";
@@ -354,8 +357,31 @@ window.onload = function () {
 	}
 	hideFocusHistory();
 	resetPage();
+
+
+	// Theme
+	var lightTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+
+	if(lightTheme == true) {
+		document.getElementById("toggleTheme").setAttribute("class", "btn");
+		document.getElementById("toggleTheme").innerHTML = "🌘 Dark Theme";
+	}
+	else {
+		document.getElementById("toggleTheme").setAttribute("class", "btn dark");
+		document.getElementById("toggleTheme").innerHTML = "🌞 Light Theme";
+		document.body.setAttribute("class", "dark");
+	}
 }
 
 function toggleTheme() {
-
+	if (document.getElementById("toggleTheme").classList == "btn" ) {
+		document.getElementById("toggleTheme").setAttribute("class", "btn dark");
+		document.getElementById("toggleTheme").innerHTML = "🌞 Light Theme";
+		document.body.setAttribute("class", "dark");
+	}
+	else {
+		document.getElementById("toggleTheme").setAttribute("class", "btn");
+		document.getElementById("toggleTheme").innerHTML = "🌘 Dark Theme";
+		document.body.setAttribute("class", "");
+	}
 }
