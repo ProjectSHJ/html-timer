@@ -1,25 +1,3 @@
-/* Light mode */
-@media (prefers-color-scheme: light) {
-  :root {
-    --background_color_theme: white;
-    --background_color_z100: #eff2f5;
-    --background_color_z200: #cfcfd8;
-    --color_normal: #41414e;
-    --color_light: #6b6b77;
-  }
-}
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background_color_theme: black;
-    --background_color_z100: #1e1e22;
-    --background_color_z200: #3f4647;
-    --background_color_100: #eff2f5;
-    --color_normal: #f3f4f5;
-    --color_light: #b4bbc3;
-  }
-}
-
 /* Global Color Token */
 :root {
   --color_grey100: #f3f4f5;
@@ -32,14 +10,29 @@
 }
 
 * {
-  transition: 200ms;
+  transition: 150ms;
 }
 
 body {
+  --background_color_theme: white;
+  --background_color_z100: #eff2f5;
+  --background_color_z200: #cfcfd8;
+  --color_normal: #41414e;
+  --color_light: #6b6b77;
   font-family: sans-serif;
   background-color: var(--background_color_theme);
   color: var(--color_normal);
 }
+
+body.dark {
+    --background_color_theme: black;
+    --background_color_z100: #1e1e22;
+    --background_color_z200: #3f4647;
+    --background_color_100: #eff2f5;
+    --color_normal: #f3f4f5;
+    --color_light: #b4bbc3;
+}
+
 
 input:focus {
   border: 2px solid var(--color_accent);
@@ -197,4 +190,26 @@ h3 {
 #stopButton {
   width: 190px;
   margin-left: 4px;
+}
+
+#toggleTheme {
+  position: absolute;
+  top: 1.2em;
+  right: 1.2em;
+  border-radius: 10px;
+  width: 120px;
+  padding: 4px;
+  background-color: var(--color_normal);
+  color: var(--background_color_z100);
+  border: none;
+  text-align: center;
+  transition: all .2s ease;
+}
+
+#toggleTheme:hover {
+  filter: opacity(.8);
+}
+
+#toggleTheme:focus {
+  outline: none;
 }
