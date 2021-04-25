@@ -45,6 +45,8 @@ function tick() {
 
 	// now change the display
 	timeDisplay.innerHTML = message;
+	var currentStatus = localStorage.getItem("currentStatus");
+	document.title = currentStatus + " [" + message + "]"
 
 
 	// stop when time is down to zero
@@ -92,19 +94,22 @@ Show current timer status
 function NowFocus() {
 	var message = document.getElementById("CountArea");
 	message.innerHTML = "🍅 집중 중";
-	document.title = "🍅 집중 중";
+	var currentStatus = "🍅 집중 중";
+	localStorage.setItem("currentStatus", currentStatus);
 }
 
 function NowBreak() {
 	var message = document.getElementById("CountArea");
 	message.innerHTML = "🧘 휴식 중";
-	document.title = "🧘 휴식 중";
+	var currentStatus = "🧘 휴식 중";
+	localStorage.setItem("currentStatus", currentStatus);
 }
 
 function Now15Break() {
 	var message = document.getElementById("CountArea");
 	message.innerHTML = "🧘 긴 휴식 중";
-	document.title = "🧘 긴 휴식 중";
+	var currentStatus = "🧘 긴 휴식 중";
+	localStorage.setItem("currentStatus", currentStatus);
 }
 
 /*
@@ -178,6 +183,9 @@ function startCountdown() {
 
 	// set countArea message
 	NowFocus();
+
+	var startTimeStamp = new Date();
+	console.log(startTimeStamp);
 }
 
 function resetCountdown() {
