@@ -6,6 +6,80 @@ var focusCount = 0;
 var breakCount = 0;
 var taskCount = 1;
 
+// request notification permission on page load
+document.addEventListener('DOMContentLoaded', function() {
+	if (!Notification) {
+	 alert('Desktop notifications not available in your browser. Try Chromium.');
+	 return;
+	}
+   
+	if (Notification.permission !== 'granted')
+	 Notification.requestPermission();
+   });
+
+// notifications fuction
+function noti_focus() {
+	if (Notification.permission !== 'granted')
+		Notification.requestPermission();
+	else {
+		var notification = new Notification('집중 타이머 시작', {
+		icon: "pomodoro/icons/pomodoro.png",
+		body: "휴식 끝, 집중 시작",
+		});
+		
+		// close notification when click
+		notification.onclick = function () {
+			notification.close();
+		};
+		
+		// close notification after 2 seconds
+		setTimeout(() => {
+			notification.close();
+		}, 2 * 1000);
+	}
+}
+
+function noti_break() {
+	if (Notification.permission !== 'granted')
+		Notification.requestPermission();
+	else {
+		var notification = new Notification('휴식 타이머 시작', {
+		icon: "pomodoro/icons/bath.png",
+		body: "집중 끝, 5분 휴식 시작",
+		});
+
+		// close notification when click
+		notification.onclick = function () {
+			notification.close();
+		};
+		
+		// close notification after 2 seconds
+		setTimeout(() => {
+			notification.close();
+		}, 2 * 1000);
+	}
+}
+
+function noti_longbreak() {
+	if (Notification.permission !== 'granted')
+		Notification.requestPermission();
+	else {
+		var notification = new Notification('휴식 타이머 시작', {
+		icon: "pomodoro/icons/bath.png",
+		body: "집중 끝, 15분 휴식 시작",
+		});
+
+		// close notification when click
+		notification.onclick = function () {
+			notification.close();
+		};
+		
+		// close notification after 2 seconds
+		setTimeout(() => {
+			notification.close();
+		}, 2 * 1000);
+	}
+}
 
 // Timer
 
@@ -27,9 +101,9 @@ function tick() {
 
 	//subtract tickOffset from totalSeconds
 	secondsRemaining = totalSeconds - tickOffset;
-	console.log("Total Seconds: ", totalSeconds);
-	console.log("Tick offset: ", tickOffset);
-	console.log("Seconds Remaining: ", secondsRemaining);
+	// console.log("Total Seconds: ", totalSeconds);
+	// console.log("Tick offset: ", tickOffset);
+	// console.log("Seconds Remaining: ", secondsRemaining);
 
 	// turn the seconds into mm:ss
 	var min = Math.floor(secondsRemaining / 60);
@@ -51,26 +125,29 @@ function tick() {
 
 	// stop when time is down to zero
 	// call focus or break timer when time is down to zero
-	if (secondsRemaining == 0) {
+	if (secondsRemaining <= 0) {
 		if (timerCount < 8) {
 			if (timerCount % 2 == 0) {
-				alert("[🍅] 휴식 끝, 집중 시작");
-				console.log("집중");
+				// alert("[🍅] 휴식 끝, 집중 시작");
+				noti_focus();
+				// console.log("집중");
 				NowFocus();
 				focus25min();
 				timerCount++;
 				breakCount++;
 			} else {
 				if (breakCount == 3) {
-					alert("[🧘] 집중 끝, 15분 휴식 시작");
-					console.log("긴휴식");
+					// alert("[🧘] 집중 끝, 15분 휴식 시작");
+					noti_break();
+					// console.log("긴휴식");
 					Now15Break();
 					break15min();
 					timerCount++;
 					focusCount++;
 				} else {
-					alert("[🧘] 집중 끝, 5분 휴식 시작");
-					console.log("휴식");
+					// alert("[🧘] 집중 끝, 5분 휴식 시작");
+					noti_longbreak();
+					// console.log("휴식");
 					NowBreak();
 					break5min();
 					timerCount++;
@@ -94,21 +171,21 @@ Show current timer status
 function NowFocus() {
 	var message = document.getElementById("CountArea");
 	message.innerHTML = "🍅 집중 중";
-	var currentStatus = "🍅 집중 중";
+	var currentStatus = "🍅";
 	localStorage.setItem("currentStatus", currentStatus);
 }
 
 function NowBreak() {
 	var message = document.getElementById("CountArea");
 	message.innerHTML = "🧘 휴식 중";
-	var currentStatus = "🧘 휴식 중";
+	var currentStatus = "🧘";
 	localStorage.setItem("currentStatus", currentStatus);
 }
 
 function Now15Break() {
 	var message = document.getElementById("CountArea");
 	message.innerHTML = "🧘 긴 휴식 중";
-	var currentStatus = "🧘 긴 휴식 중";
+	var currentStatus = "🧘🧘";
 	localStorage.setItem("currentStatus", currentStatus);
 }
 
@@ -169,7 +246,7 @@ function startCountdown() {
 
 	// every second, call the "tick" function
 	// have to make it into a variable so that you can stop the interval later!!!
-	intervalHandle = setInterval(tick, 1000);
+	intervalHandle = setInterval(tick, 500);
 
 	// show focusTask, button area
 	document.getElementById("focusArea").style.display = "";
@@ -185,7 +262,7 @@ function startCountdown() {
 	NowFocus();
 
 	var startTimeStamp = new Date();
-	console.log(startTimeStamp);
+	// console.log(startTimeStamp);
 }
 
 function resetCountdown() {
@@ -228,7 +305,7 @@ function pauseCountdown() {
 	// 일시정지 duration 만큼 timerStartTime에 더해주는 작업
 	var timerPauseTime = Date.now();
 	localStorage.setItem("timerPauseTime", timerPauseTime);
-	console.log("Paused at: ", timerPauseTime);
+	// console.log("Paused at: ", timerPauseTime);
 
 	// stop timer
 	clearInterval(intervalHandle);
@@ -250,16 +327,16 @@ function resumeCountdown() {
 	var timerResumeTime = Date.now();
 	timerPauseTime = localStorage.getItem("timerPauseTime")
 	var pauseDuration = timerResumeTime - timerPauseTime;
-	console.log("Resume at: ", timerResumeTime)
-	console.log("paused for: ", pauseDuration);
+	// console.log("Resume at: ", timerResumeTime)
+	// console.log("paused for: ", pauseDuration);
 	var timerStartTime = JSON.parse(localStorage.getItem("timerStartTime"));
-	console.log("기존 Start Time: ", timerStartTime)
+	// console.log("기존 Start Time: ", timerStartTime)
 	timerStartTime = timerStartTime + pauseDuration;
-	console.log("변경 Start Time: ", timerStartTime);
+	// console.log("변경 Start Time: ", timerStartTime);
 	localStorage.setItem("timerStartTime", timerStartTime);
 
 	// restart timer
-	intervalHandle = setInterval(tick, 1000);
+	intervalHandle = setInterval(tick, 500);
 
 	// restyle timer
 	document.getElementById("time").style.textDecoration = "";
@@ -303,7 +380,7 @@ function createFocusTask() {
 */
 
 function focus25min() {
-	var minutes = 25;
+	var minutes = .25;
 
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -318,7 +395,7 @@ function focus25min() {
 }
 
 function break5min() {
-	var minutes = 5;
+	var minutes = .05;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -333,7 +410,7 @@ function break5min() {
 }
 
 function break15min() {
-	var minutes = 15;
+	var minutes = .15;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
