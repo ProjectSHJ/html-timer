@@ -1,3 +1,4 @@
+var totalSeconds;
 var secondsRemaining;
 var intervalHandle;
 var timerCount = 1;
@@ -14,8 +15,20 @@ function resetPage() {
 }
 
 function tick() {
+	// 	seconds remainig
+	var currentTime = new Date();
+	var timerStartTime = localStorage.getItem("timerStartTime");
+	var tickOffset = currentTime.getTime() - timerStartTime;
+	tickOffset = Math.floor(tickOffset/1000)
+
 	// grab the h1
 	var timeDisplay = document.getElementById("time");
+
+	//subtract tickOffset from totalSeconds
+	secondsRemaining = totalSeconds - tickOffset;
+	console.log("Total Seconds: ", totalSeconds);
+	console.log("Tick offset: ", tickOffset);
+	console.log("Seconds Remaining: ", secondsRemaining);
 
 	// turn the seconds into mm:ss
 	var min = Math.floor(secondsRemaining / 60);
@@ -32,29 +45,33 @@ function tick() {
 	// now change the display
 	timeDisplay.innerHTML = message;
 
+
 	// stop when time is down to zero
 	// call focus or break timer when time is down to zero
 	if (secondsRemaining == 0) {
 		if (timerCount < 8) {
 			if (timerCount % 2 == 0) {
+				alert("[🍅] 휴식 끝, 집중 시작");
+				console.log("집중");
 				NowFocus();
 				focus25min();
 				timerCount++;
 				breakCount++;
-				alert("[🍅] 휴식 끝, 집중 시작");
 			} else {
 				if (breakCount == 3) {
+					alert("[🧘] 집중 끝, 15분 휴식 시작");
+					console.log("긴휴식");
 					Now15Break();
 					break15min();
 					timerCount++;
 					focusCount++;
-					alert("[🧘] 집중 끝, 15분 휴식 시작");
 				} else {
+					alert("[🧘] 집중 끝, 5분 휴식 시작");
+					console.log("휴식");
 					NowBreak();
 					break5min();
 					timerCount++;
 					focusCount++;
-					alert("[🧘] 집중 끝, 5분 휴식 시작");
 				}
 			}
 		} else {
@@ -65,9 +82,6 @@ function tick() {
 			alert("🎉 포모도로 1사이클(130분)을 완료했어요!") 
 		}
 	}
-
-	//subtract from seconds remaining
-	secondsRemaining--;
 }
 
 /*
@@ -194,6 +208,11 @@ function resetCountdown() {
 
 	// add taskCount
 	taskCount++;
+
+	// Session Starage timestamp of StartCountdown
+	var timerResetTime = Date.now();
+	localStorage.setItem("timerResetTime", timerResetTime);
+	localStorage.clear("timerStartTime");
 }
 
 function pauseCountdown() {
@@ -258,31 +277,46 @@ function createFocusTask() {
 */
 
 function focus25min() {
-	var minutes = 25;
+	var minutes = .1;
 
 	// how many seconds
-	secondsRemaining = minutes * 60;
-
+	totalSeconds = minutes * 60;
+	secondsRemaining = totalSeconds - 1;
+	
+	// Session Starage timestamp of StartCountdown
+	var timerStartTime = Date.now();
+	localStorage.setItem("timerStartTime", timerStartTime);
+	
 	// style timer
 	document.getElementById("time").style.color = "var(--color_focus)";
 }
 
 function break5min() {
-	var minutes = 5;
-
+	var minutes = .1;
+	
 	// how many seconds
-	secondsRemaining = minutes * 60;
+	totalSeconds = minutes * 60;
+	secondsRemaining = totalSeconds - 1;
+
+	// Session Starage timestamp of StartCountdown
+	var timerStartTime = Date.now();
+	localStorage.setItem("timerStartTime", timerStartTime);
 
 	// style timer
 	document.getElementById("time").style.color = "var(--color_break)";
 }
 
 function break15min() {
-	var minutes = 15;
-
+	var minutes = .1;
+	
 	// how many seconds
-	secondsRemaining = minutes * 60;
+	totalSeconds = minutes * 60;
+	secondsRemaining = totalSeconds - 1;
 
+	// Session Starage timestamp of StartCountdown
+	var timerStartTime = Date.now();
+	localStorage.setItem("timerStartTime", timerStartTime);
+	
 	// style timer
 	document.getElementById("time").style.color = "var(--color_longBreak)";
 }
