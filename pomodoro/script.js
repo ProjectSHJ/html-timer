@@ -17,8 +17,9 @@ function resetPage() {
 function tick() {
 	// 	seconds remainig
 	var currentTime = new Date();
+	currentTime = currentTime.getTime();
 	var timerStartTime = localStorage.getItem("timerStartTime");
-	var tickOffset = currentTime.getTime() - timerStartTime;
+	var tickOffset = currentTime - timerStartTime;
 	tickOffset = Math.floor(tickOffset/1000)
 
 	// grab the h1
@@ -216,6 +217,11 @@ function resetCountdown() {
 }
 
 function pauseCountdown() {
+	// 일시정지 duration 만큼 timerStartTime에 더해주는 작업
+	var timerPauseTime = Date.now();
+	localStorage.setItem("timerPauseTime", timerPauseTime);
+	console.log("Paused at: ", timerPauseTime);
+
 	// stop timer
 	clearInterval(intervalHandle);
 
@@ -232,6 +238,18 @@ function pauseCountdown() {
 }
 
 function resumeCountdown() {
+	// 일시정지 duration 만큼 timerStartTime에 더해주는 작업
+	var timerResumeTime = Date.now();
+	timerPauseTime = localStorage.getItem("timerPauseTime")
+	var pauseDuration = timerResumeTime - timerPauseTime;
+	console.log("Resume at: ", timerResumeTime)
+	console.log("paused for: ", pauseDuration);
+	var timerStartTime = JSON.parse(localStorage.getItem("timerStartTime"));
+	console.log("기존 Start Time: ", timerStartTime)
+	timerStartTime = timerStartTime + pauseDuration;
+	console.log("변경 Start Time: ", timerStartTime);
+	localStorage.setItem("timerStartTime", timerStartTime);
+
 	// restart timer
 	intervalHandle = setInterval(tick, 1000);
 
@@ -277,11 +295,11 @@ function createFocusTask() {
 */
 
 function focus25min() {
-	var minutes = .1;
+	var minutes = 25;
 
 	// how many seconds
 	totalSeconds = minutes * 60;
-	secondsRemaining = totalSeconds - 1;
+	secondsRemaining = totalSeconds;
 	
 	// Session Starage timestamp of StartCountdown
 	var timerStartTime = Date.now();
@@ -292,11 +310,11 @@ function focus25min() {
 }
 
 function break5min() {
-	var minutes = .1;
+	var minutes = 5;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
-	secondsRemaining = totalSeconds - 1;
+	secondsRemaining = totalSeconds;
 
 	// Session Starage timestamp of StartCountdown
 	var timerStartTime = Date.now();
@@ -307,11 +325,11 @@ function break5min() {
 }
 
 function break15min() {
-	var minutes = .1;
+	var minutes = 15;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
-	secondsRemaining = totalSeconds - 1;
+	secondsRemaining = totalSeconds;
 
 	// Session Starage timestamp of StartCountdown
 	var timerStartTime = Date.now();
