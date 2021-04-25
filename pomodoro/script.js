@@ -128,7 +128,6 @@ function tick() {
 	if (secondsRemaining <= 0) {
 		if (timerCount < 8) {
 			if (timerCount % 2 == 0) {
-				// alert("[🍅] 휴식 끝, 집중 시작");
 				noti_focus();
 				// console.log("집중");
 				NowFocus();
@@ -137,7 +136,6 @@ function tick() {
 				breakCount++;
 			} else {
 				if (breakCount == 3) {
-					// alert("[🧘] 집중 끝, 15분 휴식 시작");
 					noti_break();
 					// console.log("긴휴식");
 					Now15Break();
@@ -145,7 +143,6 @@ function tick() {
 					timerCount++;
 					focusCount++;
 				} else {
-					// alert("[🧘] 집중 끝, 5분 휴식 시작");
 					noti_longbreak();
 					// console.log("휴식");
 					NowBreak();
@@ -380,7 +377,7 @@ function createFocusTask() {
 */
 
 function focus25min() {
-	var minutes = .25;
+	var minutes = 25;
 
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -395,7 +392,7 @@ function focus25min() {
 }
 
 function break5min() {
-	var minutes = .05;
+	var minutes = 5;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -410,7 +407,7 @@ function break5min() {
 }
 
 function break15min() {
-	var minutes = .15;
+	var minutes = 15;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
