@@ -35,7 +35,7 @@ function noti_focus() {
 		// close notification after 2 seconds
 		setTimeout(() => {
 			notification.close();
-		}, 2 * 1000);
+		}, 4 * 1000);
 	}
 }
 
@@ -56,7 +56,7 @@ function noti_break() {
 		// close notification after 2 seconds
 		setTimeout(() => {
 			notification.close();
-		}, 2 * 1000);
+		}, 4 * 1000);
 	}
 }
 
@@ -77,7 +77,7 @@ function noti_longbreak() {
 		// close notification after 2 seconds
 		setTimeout(() => {
 			notification.close();
-		}, 2 * 1000);
+		}, 4 * 1000);
 	}
 }
 
