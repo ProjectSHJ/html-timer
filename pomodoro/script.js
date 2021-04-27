@@ -6,6 +6,10 @@ var focusCount = 0;
 var breakCount = 0;
 var taskCount = 1;
 
+/*
+=================== Notification ===================
+*/
+
 // request notification permission on page load
 document.addEventListener('DOMContentLoaded', function() {
 	if (!Notification) {
@@ -81,7 +85,9 @@ function noti_longbreak() {
 	}
 }
 
-// Timer
+/*
+=================== Timer functions ===================
+*/
 
 function resetPage() {
 	document.getElementById("focusArea").style.display = "none";
@@ -119,8 +125,9 @@ function tick() {
 
 	// now change the display
 	timeDisplay.innerHTML = message;
+	var taskName = getFocusTask();
 	var currentStatus = localStorage.getItem("currentStatus");
-	document.title = currentStatus + " [" + message + "]"
+	document.title = currentStatus + " [" + message + "] | " + taskName;
 
 
 	// stop when time is down to zero
@@ -159,6 +166,18 @@ function tick() {
 			alert("🎉 포모도로 1사이클(130분)을 완료했어요!") 
 		}
 	}
+}
+
+function getFocusTask() {
+	// get input value from inputTask input to focusTask div
+	var x = document.getElementById("task").value;
+	// if input value is empty, set to placeholder string
+	if (x == "") {
+		x = "할일 " + taskCount;
+	}
+	else {
+	}
+	return x;
 }
 
 /*
@@ -234,7 +253,7 @@ function AddBreakCount() {
 }
 
 /*
-Button Actions
+=================== Button Actions ===================
 */
 
 function startCountdown() {
@@ -354,14 +373,8 @@ function createFocusTask() {
 	}
 
 	// get input value from inputTask input to focusTask div
-	var x = document.getElementById("task").value;
-	// if input value is empty, set to placeholder string
-	if (x == "") {
-		x = "할일 " + taskCount;
-	}
-	else {
-	}
-	document.getElementById("focusTask").innerHTML = x;
+	var taskName = getFocusTask();
+	document.getElementById("focusTask").innerHTML = taskName;
 
 	// add to Task History
 	var ul = document.getElementById("historyUl");
@@ -370,7 +383,6 @@ function createFocusTask() {
 	li.setAttribute("id", "task"+taskCount);
 	ul.appendChild(li);
 }
-
 
 /*
 25 min focus, 5 min short break, 15 min long break
@@ -422,7 +434,25 @@ function break15min() {
 }
 
 /*
-Add Inputs, Buttons to DOM
+=================== Theme ===================
+*/
+
+function toggleTheme() {
+	if (document.getElementById("toggleTheme").classList == "btn" ) {
+		document.getElementById("toggleTheme").setAttribute("class", "btn dark");
+		document.getElementById("toggleTheme").innerHTML = "🌞 Light Theme";
+		document.body.setAttribute("class", "dark");
+	}
+	else {
+		document.getElementById("toggleTheme").setAttribute("class", "btn");
+		document.getElementById("toggleTheme").innerHTML = "🌘 Dark Theme";
+		document.body.setAttribute("class", "");
+	}
+}
+
+
+/*
+=================== window.onload. Add Inputs, Buttons to DOM ===================
 */
 
 window.onload = function () {
@@ -505,17 +535,6 @@ window.onload = function () {
 		document.getElementById("toggleTheme").innerHTML = "🌞 Light Theme";
 		document.body.setAttribute("class", "dark");
 	}
-}
 
-function toggleTheme() {
-	if (document.getElementById("toggleTheme").classList == "btn" ) {
-		document.getElementById("toggleTheme").setAttribute("class", "btn dark");
-		document.getElementById("toggleTheme").innerHTML = "🌞 Light Theme";
-		document.body.setAttribute("class", "dark");
-	}
-	else {
-		document.getElementById("toggleTheme").setAttribute("class", "btn");
-		document.getElementById("toggleTheme").innerHTML = "🌘 Dark Theme";
-		document.body.setAttribute("class", "");
-	}
+	// Restore status before browser inactivity
 }
