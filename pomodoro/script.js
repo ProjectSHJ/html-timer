@@ -86,6 +86,20 @@ function noti_longbreak() {
 }
 
 /*
+=================== Check if timer was working before freeze ===================
+*/
+
+function checkTaskList() {
+	if (document.getElementById("historyUl").childNodes.length >= 2) {
+		// do sth
+	}
+	else {
+		// do sth
+	}
+}
+
+
+/*
 =================== Timer functions ===================
 */
 
@@ -140,7 +154,9 @@ function tick() {
 				NowFocus();
 				focus25min();
 				timerCount++;
+				localStorage.setItem("timerCount", timerCount);
 				breakCount++;
+				localStorage.setItem("timerCount", breakCount);
 			} else {
 				if (breakCount == 3) {
 					noti_break();
@@ -148,19 +164,25 @@ function tick() {
 					Now15Break();
 					break15min();
 					timerCount++;
+					localStorage.setItem("timerCount", timerCount);
 					focusCount++;
+					localStorage.setItem("timerCount", focusCount);
 				} else {
 					noti_longbreak();
 					// console.log("휴식");
 					NowBreak();
 					break5min();
 					timerCount++;
+					localStorage.setItem("timerCount", timerCount);
 					focusCount++;
+					localStorage.setItem("timerCount", focusCount);
 				}
 			}
 		} else {
 			timerCount++;
 			breakCount++;
+			localStorage.setItem("timerCount", timerCount);
+			localStorage.setItem("timerCount", breakCount);
 			// Reset Timer, & Show Statistics
 			resetCountdown();
 			alert("🎉 포모도로 1사이클(130분)을 완료했어요!") 
@@ -193,15 +215,15 @@ function NowFocus() {
 
 function NowBreak() {
 	var message = document.getElementById("CountArea");
-	message.innerHTML = "🧘 휴식 중";
-	var currentStatus = "🧘";
+	message.innerHTML = "🛀 휴식 중";
+	var currentStatus = "🛀";
 	localStorage.setItem("currentStatus", currentStatus);
 }
 
 function Now15Break() {
 	var message = document.getElementById("CountArea");
-	message.innerHTML = "🧘 긴 휴식 중";
-	var currentStatus = "🧘🧘";
+	message.innerHTML = "🛀 긴 휴식 중";
+	var currentStatus = "🛀 🛀";
 	localStorage.setItem("currentStatus", currentStatus);
 }
 
@@ -243,13 +265,13 @@ function AddBreakCount() {
 
 	// change text
 	var message = document.getElementById("breakCount");
-	message.innerHTML = "🧘 휴식 " + breakCount + "번";
+	message.innerHTML = "🛀 휴식 " + breakCount + "번";
 	
 	// grab taskHistory li with taskCount
 	var taskLi = document.getElementById("task"+taskCount);
 	
 	// create span with class, add to DOM, Change text
-	taskLi.appendChild(document.createTextNode(" 🧘 " + breakCount + ")"));
+	taskLi.appendChild(document.createTextNode(" 🛀 " + breakCount + ")"));
 }
 
 /*
@@ -284,27 +306,25 @@ function startCountdown() {
 function resetCountdown() {
 	// alert("timer stopped");
 	clearInterval(intervalHandle);
-	timerCount = 0;
 	resetPage();
-
+	
 	// grab the h1
 	var timeDisplay = document.getElementById("time");
-
+	
 	// change value to 0:00
 	timeDisplay.innerHTML = "25:00";
 	document.getElementById("time").style.color = "var(--color_normal)";
-
+	
 	// Show Statistics
 	AddFocusCount();
 	AddBreakCount();
-
+	
 	// show Task History
 	document.getElementById("focusHistory").style.opacity = "1";
-
-	// rest title
+	
+	// rest title, Timer Focus, Break Count
 	document.title = "Pomodoro Timer";
-
-	// reset Focus, Break Count
+	timerCount = 0;
 	focusCount = 0;
 	breakCount = 0;
 
@@ -312,8 +332,6 @@ function resetCountdown() {
 	taskCount++;
 
 	// Session Starage timestamp of StartCountdown
-	var timerResetTime = Date.now();
-	localStorage.setItem("timerResetTime", timerResetTime);
 	localStorage.clear("timerStartTime");
 }
 
@@ -379,7 +397,7 @@ function createFocusTask() {
 	// add to Task History
 	var ul = document.getElementById("historyUl");
 	var li = document.createElement("li");
-	li.appendChild(document.createTextNode(x));
+	li.appendChild(document.createTextNode(taskName));
 	li.setAttribute("id", "task"+taskCount);
 	ul.appendChild(li);
 }
@@ -389,7 +407,7 @@ function createFocusTask() {
 */
 
 function focus25min() {
-	var minutes = 25;
+	var minutes = .1;
 
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -404,7 +422,7 @@ function focus25min() {
 }
 
 function break5min() {
-	var minutes = 5;
+	var minutes = .1;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -419,7 +437,7 @@ function break5min() {
 }
 
 function break15min() {
-	var minutes = 15;
+	var minutes = .1;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
