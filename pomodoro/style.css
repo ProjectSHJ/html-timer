@@ -35,6 +35,38 @@ body.dark {
     --color_light: #b4bbc3;
 }
 
+[data-tooltip]:before {
+  content: attr(data-tooltip);
+  transition: all 150ms ease;
+  position: absolute;
+  top: 5px;
+  right: 105%;
+  padding: 4px 8px;
+  line-height: 1;
+  color: var(--color_normal);
+  background-color: var(--background_color_z200);
+  border-radius: 4px;
+  width: max-content;
+  font-size: 11px;
+  opacity: 0;
+}
+
+[data-tooltip]:after {
+  content: "";
+  transition: all 150ms ease;
+  position: absolute;
+  top: 11px;
+  right: 82%;
+  border-width: 4px;
+  border-style: solid;
+  border-color: transparent transparent transparent var(--background_color_z200);
+  width: max-content;
+  opacity: 0;
+}
+
+[data-tooltip]:hover:before, [data-tooltip]:hover:after {
+  opacity: 1;
+}
 
 input:focus {
   border: 2px solid var(--color_accent);
@@ -233,6 +265,6 @@ h3 {
   padding: 2px 8px;
   border-radius: 8px;
   color: var(--background_color_z100);
-  background-color: var(--background_color_z900);
+  background-color: transparent;
   border: 2px solid rgba(0,0,0,0);
 }
