@@ -158,8 +158,7 @@ function tick() {
 	// now change the display
 	timeDisplay.innerHTML = message;
 	var taskName = getFocusTask();
-	var currentStatus = localStorage.getItem("currentStatus");
-	document.title = currentStatus + " [" + message + "] | " + taskName;
+	document.title = "[" + message + "] | " + taskName;
 
 
 	// stop when time is down to zero
@@ -227,24 +226,18 @@ Show current timer status
 function NowFocus() {
 	var message = document.getElementById("CountArea");
 	message.innerHTML = "🍅 집중 중";
-	var currentStatus = "🍅";
-	localStorage.setItem("currentStatus", currentStatus);
 	setFavicon(faviconPomodoro);
 }
 
 function NowBreak() {
 	var message = document.getElementById("CountArea");
 	message.innerHTML = "🛀 휴식 중";
-	var currentStatus = "🛀";
-	localStorage.setItem("currentStatus", currentStatus);
 	setFavicon(faviconBath);
 }
 
 function Now15Break() {
 	var message = document.getElementById("CountArea");
 	message.innerHTML = "🛀 긴 휴식 중";
-	var currentStatus = "🛀 🛀";
-	localStorage.setItem("currentStatus", currentStatus);
 	setFavicon(faviconBath);
 }
 
