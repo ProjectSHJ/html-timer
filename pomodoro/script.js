@@ -4,7 +4,7 @@ var intervalHandle;
 var timerCount = 1;
 var focusCount = 0;
 var breakCount = 0;
-var taskCount = 1;
+var taskCount = localStorage.getItem("taskCount");
 var faviconClock = 'https://projectshj.github.io/html-timer/pomodoro/icons/clock.png'
 var faviconPomodoro = 'https://projectshj.github.io/html-timer/pomodoro/icons/pomodoro.png'
 var faviconBath = 'https://projectshj.github.io/html-timer/pomodoro/icons/bath.png'
@@ -93,8 +93,23 @@ function noti_longbreak() {
 */
 
 function checkTaskList() {
-	if (document.getElementById("historyUl").childNodes.length >= 2) {
-		// do sth
+	if (localStorage.getItem("task1") != null) {
+		// taskCount 만큼 #HistoryUl 안에 #task{taskCount}, {taskCount}의 value를 가진 li를 붙여넣기
+		var i;
+		var x = localStorage.getItem("taskCount")
+		for (i = 1; i <= x; i++) {
+			var taskNo = "task"+i;
+			var taskValue = localStorage.getItem(taskNo);
+			var ul = document.getElementById("historyUl");
+			var li = document.createElement("li");
+			li.appendChild(document.createTextNode(taskValue));
+			li.setAttribute("id", taskNo);
+			ul.appendChild(li);
+		}
+		
+		// show Task History
+		document.getElementById("focusHistory").style.display = "";
+		document.getElementById("focusHistory").style.opacity = 1;
 	}
 	else {
 		// do sth
@@ -166,33 +181,36 @@ function tick() {
 	if (secondsRemaining <= 0) {
 		if (timerCount < 8) {
 			if (timerCount % 2 == 0) {
+				timerCount++;
+				breakCount++;
+				localStorage.setItem("timerCount", timerCount);
+				localStorage.setItem("timerCount", breakCount);
+				// console.log(timerCount, focusCount, breakCount);
+				// console.log("집중 시작");
 				noti_focus();
-				// console.log("집중");
 				NowFocus();
 				focus25min();
-				timerCount++;
-				localStorage.setItem("timerCount", timerCount);
-				breakCount++;
-				localStorage.setItem("timerCount", breakCount);
 			} else {
 				if (breakCount == 3) {
+					timerCount++;
+					focusCount++;
+					localStorage.setItem("timerCount", timerCount);
+					localStorage.setItem("timerCount", focusCount);
+					// console.log(timerCount, focusCount, breakCount);
+					// console.log("긴휴식 시작");
 					noti_break();
-					// console.log("긴휴식");
 					Now15Break();
 					break15min();
-					timerCount++;
-					localStorage.setItem("timerCount", timerCount);
-					focusCount++;
-					localStorage.setItem("timerCount", focusCount);
 				} else {
+					timerCount++;
+					focusCount++;
+					localStorage.setItem("timerCount", timerCount);
+					localStorage.setItem("timerCount", focusCount);
+					// console.log(timerCount, focusCount, breakCount);
+					// console.log("휴식 시작");
 					noti_longbreak();
-					// console.log("휴식");
 					NowBreak();
 					break5min();
-					timerCount++;
-					localStorage.setItem("timerCount", timerCount);
-					focusCount++;
-					localStorage.setItem("timerCount", focusCount);
 				}
 			}
 		} else {
@@ -200,6 +218,7 @@ function tick() {
 			breakCount++;
 			localStorage.setItem("timerCount", timerCount);
 			localStorage.setItem("timerCount", breakCount);
+			
 			// Reset Timer, & Show Statistics
 			resetCountdown();
 			alert("🎉 포모도로 1사이클(130분)을 완료했어요!") 
@@ -210,6 +229,7 @@ function tick() {
 function getFocusTask() {
 	// get input value from inputTask input to focusTask div
 	var x = document.getElementById("task").value;
+
 	// if input value is empty, set to placeholder string
 	if (x == "") {
 		x = "할일 " + taskCount;
@@ -313,8 +333,8 @@ function startCountdown() {
 	// set countArea message
 	NowFocus();
 
-	var startTimeStamp = new Date();
-	// console.log(startTimeStamp);
+	// save taskCount to localStorage
+	localStorage.setItem("taskCount", taskCount);
 }
 
 function resetCountdown() {
@@ -332,21 +352,26 @@ function resetCountdown() {
 	// Show Statistics
 	AddFocusCount();
 	AddBreakCount();
+	var taskNo = localStorage.getItem("taskCount");
+	var x = "task" + taskNo;
+	var taskValue = document.getElementById(x).innerHTML;
+	localStorage.setItem(x, taskValue);
 	
 	// show Task History
-	document.getElementById("focusHistory").style.opacity = "1";
+	document.getElementById("focusHistory").style.opacity = 1;
 	
 	// rest title, Timer Focus, Break Count
 	document.title = "Pomodoro Timer";
-	timerCount = 0;
+	timerCount = 1;
 	focusCount = 0;
 	breakCount = 0;
 
-	// add taskCount
-	taskCount++;
+	// add taskCount and save
+	// taskCount++;
+	// localStorage.setItem("taskCount", taskCount);
 
 	// Session Starage timestamp of StartCountdown
-	localStorage.clear("timerStartTime");
+	localStorage.removeItem("timerStartTime");
 
 	// set Favicon to original
 	setFavicon(faviconClock);
@@ -402,6 +427,14 @@ function resumeCountdown() {
 }
 
 function createFocusTask() {
+	// add taskCount
+	if (taskCount != null) {
+		taskCount++;
+	}
+	else {
+		taskCount = 1;
+	}
+
 	// show focusHistory area if focusHistory is display none
 	if (document.getElementById("focusHistory").style.display = "none") {
 		document.getElementById("focusHistory").style.display = ""
@@ -417,6 +450,34 @@ function createFocusTask() {
 	li.appendChild(document.createTextNode(taskName));
 	li.setAttribute("id", "task"+taskCount);
 	ul.appendChild(li);
+
+	// add to Local Storage
+	var taskNo = "task"+taskCount;
+	localStorage.setItem(taskNo, taskName);
+	localStorage.setItem("taskCount", taskCount);
+}
+
+function resetAllTasks() {
+	clearInterval(intervalHandle);
+	
+	// clear all
+	localStorage.clear();
+	taskCount = "";
+	document.getElementById("time").style.textDecoration = "";
+	document.getElementById("time").style.opacity = "";
+	var timeDisplay = document.getElementById("time");
+	timeDisplay.innerHTML = "25:00";
+	document.getElementById("time").style.color = "var(--color_normal)";
+	
+	// Get the ul and remove all child nodes
+	var ul = document.getElementById("historyUl");
+	while (ul.hasChildNodes()) {  
+		ul.removeChild(ul.firstChild);
+	}
+	resetPage();
+	
+	// hide Task History
+	document.getElementById("focusHistory").style.opacity = 0;
 }
 
 /*
@@ -424,7 +485,7 @@ function createFocusTask() {
 */
 
 function focus25min() {
-	var minutes = .1;
+	var minutes = 25;
 
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -439,7 +500,7 @@ function focus25min() {
 }
 
 function break5min() {
-	var minutes = .1;
+	var minutes = 5;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -454,7 +515,7 @@ function break5min() {
 }
 
 function break15min() {
-	var minutes = .1;
+	var minutes = 15;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -575,4 +636,5 @@ window.onload = function () {
 	setFavicon(faviconClock);
 
 	// Restore status before browser inactivity
+	checkTaskList();
 }
