@@ -17,9 +17,11 @@ body {
   --background_color_theme: white;
   --background_color_z100: #eff2f5;
   --background_color_z200: #cfcfd8;
+  --background_color_z900: #252627;
   --color_normal: #41414e;
   --color_light: #6b6b77;
   font-family: sans-serif;
+  
   background-color: var(--background_color_theme);
   color: var(--color_normal);
 }
@@ -28,7 +30,7 @@ body.dark {
     --background_color_theme: black;
     --background_color_z100: #1e1e22;
     --background_color_z200: #3f4647;
-    --background_color_100: #eff2f5;
+    --background_color_z900: #eff2f5;
     --color_normal: #f3f4f5;
     --color_light: #b4bbc3;
 }
@@ -145,9 +147,22 @@ h1 {
 }
 
 h3 {
-  margin: 4px 0 10px 0;
   font-size: 1em;
   line-height: 20px;
+  margin: 0;
+}
+
+.flex__row__spacebetween {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 4px 0 10px 0;
+}
+
+.flex__row__spacebetween > h3 {
+  display: inline-block;
+
 }
 
 #task {
@@ -212,4 +227,12 @@ h3 {
 
 #toggleTheme:focus {
   outline: none;
+}
+
+#resetAllTasks {
+  padding: 2px 8px;
+  border-radius: 8px;
+  color: var(--background_color_z100);
+  background-color: var(--background_color_z900);
+  border: 2px solid rgba(0,0,0,0);
 }
