@@ -5,6 +5,9 @@ var timerCount = 1;
 var focusCount = 0;
 var breakCount = 0;
 var taskCount = 1;
+var faviconClock = 'https://projectshj.github.io/html-timer/pomodoro/icons/clock.png'
+var faviconPomodoro = 'https://projectshj.github.io/html-timer/pomodoro/icons/pomodoro.png'
+var faviconBath = 'https://projectshj.github.io/html-timer/pomodoro/icons/bath.png'
 
 /*
 =================== Notification ===================
@@ -96,6 +99,21 @@ function checkTaskList() {
 	else {
 		// do sth
 	}
+}
+
+
+/*
+=================== favicon change ===================
+*/
+
+function setFavicon(url) {
+	var link = document.querySelector("link[rel~='icon']");
+	if (!link) {
+		link = document.createElement('link');
+		link.rel = 'icon';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	}
+	link.href = url;
 }
 
 
@@ -211,6 +229,7 @@ function NowFocus() {
 	message.innerHTML = "🍅 집중 중";
 	var currentStatus = "🍅";
 	localStorage.setItem("currentStatus", currentStatus);
+	setFavicon(faviconPomodoro);
 }
 
 function NowBreak() {
@@ -218,6 +237,7 @@ function NowBreak() {
 	message.innerHTML = "🛀 휴식 중";
 	var currentStatus = "🛀";
 	localStorage.setItem("currentStatus", currentStatus);
+	setFavicon(faviconBath);
 }
 
 function Now15Break() {
@@ -225,6 +245,7 @@ function Now15Break() {
 	message.innerHTML = "🛀 긴 휴식 중";
 	var currentStatus = "🛀 🛀";
 	localStorage.setItem("currentStatus", currentStatus);
+	setFavicon(faviconBath);
 }
 
 /*
@@ -333,6 +354,9 @@ function resetCountdown() {
 
 	// Session Starage timestamp of StartCountdown
 	localStorage.clear("timerStartTime");
+
+	// set Favicon to original
+	setFavicon(faviconClock);
 }
 
 function pauseCountdown() {
@@ -553,6 +577,9 @@ window.onload = function () {
 		document.getElementById("toggleTheme").innerHTML = "🌞 Light Theme";
 		document.body.setAttribute("class", "dark");
 	}
+
+	// set favicion
+	setFavicon(faviconClock);
 
 	// Restore status before browser inactivity
 }
