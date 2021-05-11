@@ -678,7 +678,7 @@ function resetAllTasks() {
 */
 
 function focus25min() {
-	var minutes = .1;
+	var minutes = 25;
 
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -693,7 +693,7 @@ function focus25min() {
 }
 
 function break5min() {
-	var minutes = .1;
+	var minutes = 5;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -708,7 +708,7 @@ function break5min() {
 }
 
 function break15min() {
-	var minutes = .1;
+	var minutes = 15;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
