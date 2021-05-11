@@ -24,12 +24,23 @@ function getFocusTask() {
 	var x = document.getElementById("task").value;
 
 	// if input value is empty, set to placeholder string
-	if (x == "") {
-		x = "할일 " + taskCount;
+	if (taskCount != null) {
+		if (x == "") {
+			x = "할일 " + taskCount;
+		}
+		else {
+		}
+		return x;
 	}
 	else {
+		taskCount = 1;
+		if (x == "") {
+			x = "할일 " + taskCount;
+		}
+		else {
+		}
+		return x;
 	}
-	return x;
 }
 
 function setTaskInfo(x, y) {
@@ -149,14 +160,26 @@ function checkTaskList() {
 		var i;
 		var x = localStorage.getItem("taskCount")
 		for (i = 1; i <= x; i++) {
-			var taskNo = "task"+i;
+			var taskNo = "task" + i;
+			var continueNo = "continueButton" + i;
 			var taskValue = localStorage.getObj(taskNo).taskValue;
 			var stats = " (🍅 " + localStorage.getObj(taskNo).focusCount + " 🛀 " + localStorage.getObj(taskNo).breakCount + ")";
+			// create continue button
+			var continueButton = document.createElement("button");
+			continueButton.setAttribute("id", continueNo);
+			continueButton.setAttribute("class", "btn icon_btn");
+			continueButton.setAttribute("type", "button");
+			continueButton.setAttribute("data-tooltip", "이어하기");
+			continueButton.onclick = function () {
+				continueCountdown(this.id);
+			}
+			continueButton.innerHTML = "➡️";
 			var ul = document.getElementById("historyUl");
 			var li = document.createElement("li");
 			li.appendChild(document.createTextNode(taskValue + stats));
 			li.setAttribute("id", taskNo);
 			ul.appendChild(li);
+			li.appendChild(continueButton);
 		}
 		
 		// show Task History
@@ -191,6 +214,14 @@ function setFavicon(url) {
 function resetPage() {
 	document.getElementById("focusArea").style.display = "none";
 	document.getElementById("inputArea").style.display = "flex";
+}
+
+function clearTimer() {
+	document.getElementById("resumeButton").style.display = "none";
+	document.getElementById("pauseButton").style.display = "";
+	document.getElementById("stopButton").style.display = "";
+	document.getElementById("time").style.textDecoration = "";
+	document.getElementById("time").style.opacity = "";
 }
 
 function tick() {
@@ -302,10 +333,10 @@ function Now15Break() {
 }
 
 /*
-Add Focus Count, Break Count
+Add Focus Count, Break Count, Continue Button
 */
 
-function AddFocusCount() {
+function AddGlobalStat() {
 	// clear CountArea
 	var countArea = document.getElementById("CountArea");
 	countArea.innerHTML = "";
@@ -313,39 +344,60 @@ function AddFocusCount() {
 	// create span with id
 	var focusSpan = document.createElement("span");
 	focusSpan.setAttribute("id", "focusCount");
-
-	// add to the DOM
-	document.getElementById("CountArea").appendChild(focusSpan);
-
-	// change text
-	var message = document.getElementById("focusCount");
-	message.innerHTML = "🍅 집중 " + focusCount + "번";
-
-	// grab taskHistory li with taskCount
-	var taskLi = document.getElementById("task"+taskCount);
-	
-	// create span with class, add to DOM, Change text
-	taskLi.appendChild(document.createTextNode(" (🍅 " + focusCount));
-
-}
-
-function AddBreakCount() {
-	// create span with id
 	var breakSpan = document.createElement("span");
 	breakSpan.setAttribute("id", "breakCount");
 
 	// add to the DOM
+	document.getElementById("CountArea").appendChild(focusSpan);
 	document.getElementById("CountArea").appendChild(breakSpan);
 
 	// change text
-	var message = document.getElementById("breakCount");
-	message.innerHTML = "🛀 휴식 " + breakCount + "번";
+	var message1 = document.getElementById("focusCount");
+	message1.innerHTML = "🍅 집중 " + focusCount + "번";
+	var message2 = document.getElementById("breakCount");
+	message2.innerHTML = "🛀 휴식 " + breakCount + "번";
+}
+
+function AddTaskStat() {
+	var taskNo = "task" + taskCount;
 	
 	// grab taskHistory li with taskCount
-	var taskLi = document.getElementById("task"+taskCount);
-	
-	// create span with class, add to DOM, Change text
-	taskLi.appendChild(document.createTextNode(" 🛀 " + breakCount + ")"));
+	var taskLi = document.getElementById(taskNo);
+
+	// grab task information
+	var taskInfo = localStorage.getObj(taskNo);
+	taskValue = taskInfo.taskValue;
+	focusCount = taskInfo.focusCount;
+	breakCount = taskInfo.breakCount;
+
+	// Change text of li
+	taskLi.innerHTML = taskValue + " (🍅 " + focusCount + " 🛀 " + breakCount + ")";
+}
+
+function AddContinueButton() {
+	var continueNo = "continueButton" + taskCount;
+	var continueButton = document.createElement("button");
+	continueButton.setAttribute("id", continueNo);
+	continueButton.setAttribute("class", "btn icon_btn");
+	continueButton.setAttribute("type", "button");
+	continueButton.setAttribute("data-tooltip", "이어하기");
+	continueButton.onclick = function () {
+		continueCountdown(this.id);
+	}
+	continueButton.innerHTML = "➡️";
+
+	// grab current task li
+	var taskNo = "continueButton" + taskCount;
+	var t = "task" + taskCount;
+
+	// check if there is button
+	var c = "continueButton" + taskNo;
+	c = document.getElementById(c)
+	if (c == null) {
+		var li = document.getElementById(t)
+		li.appendChild(continueButton);
+	}
+	else {}
 }
 
 /*
@@ -355,19 +407,37 @@ function AddBreakCount() {
 function startCountdown() {
 	// add taskCount to localStorage
 	if (taskCount != null) {
-		taskCount++;
-		localStorage.setItem("taskCount", taskCount);
-		var x = "task" + taskCount;
-		var taskValue = getFocusTask();
-		var a = {
-			taskCount: 1,
-			timerCount: 0,
-			focusCount: 0,
-			breakCount: 0,
-			taskValue: taskValue
-		}
-		localStorage.setObj(x, a);
+		if (localStorage.getItem("previousTaskCount") != null) {
+			// current TaskCount is Previous Task Count + 1, cand clear
+			taskCount = parseInt(localStorage.getItem("previousTaskCount")) + 1;
+			localStorage.removeItem("previousTaskCount");
 
+			localStorage.setItem("taskCount", taskCount);
+			var x = "task" + taskCount;
+			var taskValue = getFocusTask();
+			var a = {
+				taskCount: taskCount,
+				timerCount: 0,
+				focusCount: 0,
+				breakCount: 0,
+				taskValue: taskValue
+			}
+			localStorage.setObj(x, a);
+		}
+		else {
+			taskCount++;
+			localStorage.setItem("taskCount", taskCount);
+			var x = "task" + taskCount;
+			var taskValue = getFocusTask();
+			var a = {
+				taskCount: taskCount,
+				timerCount: 0,
+				focusCount: 0,
+				breakCount: 0,
+				taskValue: taskValue
+			}
+			localStorage.setObj(x, a);
+		}
 	}
 	else {
 		taskCount = 1;
@@ -398,16 +468,27 @@ function startCountdown() {
 
 	// set Task History Area opacity to 0
 	// show Task History
-	document.getElementById("focusHistory").style.opacity = "";
+	// document.getElementById("focusHistory").style.opacity = "";
 
 	// set countArea message
 	NowFocus();
+
+	// hide all continueCountdown throughout li
+	var i;
+	var x = document.getElementById("historyUl").querySelectorAll(".icon_btn");
+	for (i = 0; i < x.length; i++) {
+		x[i].style.display = "none";
+	}
 }
 
 function resetCountdown() {
 	// alert("timer stopped");
 	clearInterval(intervalHandle);
 	resetPage();
+	
+	// remove highlight
+	var taskNo = "task" + taskCount;
+	document.getElementById(taskNo).style.backgroundColor = "";
 	
 	// grab the h1
 	var timeDisplay = document.getElementById("time");
@@ -417,11 +498,11 @@ function resetCountdown() {
 	document.getElementById("time").style.color = "var(--color_normal)";
 	
 	// Show Statistics
-	AddFocusCount();
-	AddBreakCount();
-	
-	// show Task History
-	document.getElementById("focusHistory").style.opacity = 1;
+	AddGlobalStat();
+	AddTaskStat();
+
+	// add Continue button
+	AddContinueButton();
 	
 	// rest title, Timer Focus, Break Count
 	document.title = "Pomodoro Timer";
@@ -434,6 +515,13 @@ function resetCountdown() {
 
 	// set Favicon to original
 	setFavicon(faviconClock);
+
+	// show all continueCountdown throughout li
+	var i;
+	var x = document.getElementById("historyUl").querySelectorAll(".icon_btn");
+	for (i = 0; i < x.length; i++) {
+		x[i].style.display = "";
+	}
 }
 
 function pauseCountdown() {
@@ -485,11 +573,66 @@ function resumeCountdown() {
 	document.getElementById("stopButton").style.display = "";
 }
 
+function continueCountdown(this_id) {
+	// grab taskCount of the button
+	var buttonNo = this_id;
+	buttonNo = buttonNo.split("continueButton")[1];
+
+	// grab task information
+	var taskNo = "task" + buttonNo;	
+	var taskInfo = localStorage.getObj(taskNo);
+	console.log(taskNo);
+	console.log(localStorage.getObj(taskNo));
+	
+	// send taskValue to #focusTask
+	var taskName = taskInfo.taskValue;
+	document.getElementById("focusTask").innerHTML = taskName;
+	
+	// save last Task Count as previous Task Count
+	var previousTaskCount = localStorage.getItem("taskCount");
+	localStorage.setItem("previousTaskCount", previousTaskCount);
+
+	// highlight task
+	document.getElementById(taskNo).style.backgroundColor = "var(--background_color_z100)";
+	
+	// send timerCount, focusCount, breakCount then start Countdown
+	taskCount = taskInfo.taskCount;
+	timerCount = taskInfo.timerCount;
+	focusCount = taskInfo.focusCount;
+	breakCount = taskInfo.breakCount;
+
+
+	// clear timer
+	clearTimer();
+
+	// start pomodoro
+	focus25min();
+
+	// every second, call the "tick" function
+	intervalHandle = setInterval(tick, 500);
+
+	// show focusTask, button area
+	document.getElementById("focusArea").style.display = "";
+
+	// hide input area
+	document.getElementById("inputArea").style.display = "none";
+
+	// set countArea message
+	NowFocus();
+
+	// hide all continueCountdown throughout li
+	var i;
+	var x = document.getElementById("historyUl").querySelectorAll(".icon_btn");
+	for (i = 0; i < x.length; i++) {
+		x[i].style.display = "none";
+	}
+}
+
 function createFocusTask() {
 	// show focusHistory area if focusHistory is display none
 	if (document.getElementById("focusHistory").style.display = "none") {
 		document.getElementById("focusHistory").style.display = ""
-	}
+	} else {}
 
 	// get input value from inputTask input to focusTask div
 	var taskName = getFocusTask();
@@ -500,6 +643,7 @@ function createFocusTask() {
 	var li = document.createElement("li");
 	li.appendChild(document.createTextNode(taskName));
 	li.setAttribute("id", "task"+taskCount);
+	li.setAttribute("style", "background-color: var(--background_color_z100)")
 	ul.appendChild(li);
 
 	// add to Local Storage
@@ -513,11 +657,7 @@ function resetAllTasks() {
 	// clear all
 	localStorage.clear();
 	taskCount = "";
-	document.getElementById("resumeButton").style.display = "none";
-	document.getElementById("pauseButton").style.display = "";
-	document.getElementById("stopButton").style.display = "";
-	document.getElementById("time").style.textDecoration = "";
-	document.getElementById("time").style.opacity = "";
+	clearTimer();
 	var timeDisplay = document.getElementById("time");
 	timeDisplay.innerHTML = "25:00";
 	document.getElementById("time").style.color = "var(--color_normal)";
@@ -530,7 +670,7 @@ function resetAllTasks() {
 	resetPage();
 	
 	// hide Task History
-	document.getElementById("focusHistory").style.opacity = 0;
+	// document.getElementById("focusHistory").style.opacity = 0;
 }
 
 /*
@@ -538,7 +678,7 @@ function resetAllTasks() {
 */
 
 function focus25min() {
-	var minutes = 25;
+	var minutes = .1;
 
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -553,7 +693,7 @@ function focus25min() {
 }
 
 function break5min() {
-	var minutes = 5;
+	var minutes = .1;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -568,7 +708,7 @@ function break5min() {
 }
 
 function break15min() {
-	var minutes = 15;
+	var minutes = .1;
 	
 	// how many seconds
 	totalSeconds = minutes * 60;
@@ -613,7 +753,7 @@ window.onload = function () {
 	inputTask.setAttribute("autocomplete", "off");
 	inputTask.setAttribute("placeholder", "어떤 Task에 집중하나요?");
 
-	//create a button
+	//create start button
 	var startButton = document.createElement("input");
 	startButton.setAttribute("id", "startButton");
 	startButton.setAttribute("class", "btn");
