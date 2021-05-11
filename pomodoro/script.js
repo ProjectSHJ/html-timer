@@ -648,7 +648,7 @@ function createFocusTask() {
 
 	// add to Local Storage
 	localStorage.setItem("taskCount", taskCount);
-	localStorage.setObj("taskValue", taskName);
+	setTaskInfo("taskValue", taskName);
 }
 
 function resetAllTasks() {
