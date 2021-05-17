@@ -5,6 +5,7 @@ var timerCount = 1;
 var focusCount = 0;
 var breakCount = 0;
 var taskCount = localStorage.getItem("taskCount");
+var phaseCount = 1;
 var faviconClock = 'https://projectshj.github.io/html-timer/pomodoro/icons/clock.png'
 var faviconPomodoro = 'https://projectshj.github.io/html-timer/pomodoro/icons/pomodoro.png'
 var faviconBath = 'https://projectshj.github.io/html-timer/pomodoro/icons/bath.png'
@@ -45,19 +46,21 @@ function getFocusTask() {
 
 function setTaskInfo(x, y) {
 	var taskNo = localStorage.getItem("taskCount");
-	var t = "task" + taskNo;
+	var t = "task" + taskNo + "p" + phaseCount;
 	
 	var a = {}
 	var count1 = localStorage.getObj(t).taskCount;
 	var count2 = localStorage.getObj(t).timerCount;
 	var count3 = localStorage.getObj(t).focusCount;
 	var count4 = localStorage.getObj(t).breakCount;
+	var count5 = localStorage.getObj(t).phaseCount;
 	var taskValue = localStorage.getObj(t).taskValue;
 
 	if (x == "taskCount") { count1 = y; }
 	else if (x == "timerCount") { count2 = y; }
 	else if (x == "focusCount") { count3 = y; }
 	else if (x == "breakCount") { count4 = y; }
+	else if (x == "phaseCount") { count5 = y; }
 	else if (x == "taskValue") { taskValue = y; }
 	else {console.log("x 가 지정된 변수를 호출하지 않았습니다 (setTaskInfo(x, y)")}
 	a = {
@@ -65,6 +68,7 @@ function setTaskInfo(x, y) {
 		timerCount: count2,
 		focusCount: count3,
 		breakCount: count4,
+		phaseCount: count5,
 		taskValue: taskValue
 	}
 	localStorage.setObj(t, a);
@@ -158,28 +162,33 @@ function checkTaskList() {
 	if (localStorage.getItem("task1") != null) {
 		// taskCount 만큼 #HistoryUl 안에 #task{taskCount}, {taskCount}의 value를 가진 li를 붙여넣기
 		var i;
-		var x = localStorage.getItem("taskCount")
+		var x = localStorage.getItem("taskCount");
 		for (i = 1; i <= x; i++) {
 			var taskNo = "task" + i;
-			var continueNo = "continueButton" + i;
-			var taskValue = localStorage.getObj(taskNo).taskValue;
-			var stats = " (🍅 " + localStorage.getObj(taskNo).focusCount + " 🛀 " + localStorage.getObj(taskNo).breakCount + ")";
-			// create continue button
-			var continueButton = document.createElement("button");
-			continueButton.setAttribute("id", continueNo);
-			continueButton.setAttribute("class", "btn icon_btn");
-			continueButton.setAttribute("type", "button");
-			continueButton.setAttribute("data-tooltip", "이어하기");
-			continueButton.onclick = function () {
-				continueCountdown(this.id);
+			for (i = 1; i <= 99; i ++) {
+				var phaseCount = "p" + i;
+				var taskNoPh = taskNo + phaseCount;
+				var continueNo = "continueButton" + i;
+				var taskValue = localStorage.getObj(taskNoPh).taskValue;
+				var stats = " (🍅 " + localStorage.getObj(taskNoPh).focusCount + " 🛀 " + localStorage.getObj(taskNoPh).breakCount + ")";
+				// create continue button
+				var continueButton = document.createElement("button");
+				continueButton.setAttribute("id", continueNo);
+				continueButton.setAttribute("class", "btn icon_btn");
+				continueButton.setAttribute("type", "button");
+				continueButton.setAttribute("data-tooltip", "이어하기");
+				continueButton.onclick = function () {
+					continueCountdown(this.id);
+				}
+				continueButton.innerHTML = "➡️";
+				// create li and append continue button
+				var ul = document.getElementById("historyUl");
+				var li = document.createElement("li");
+				li.appendChild(document.createTextNode(taskValue + stats));
+				li.setAttribute("id", taskNoPh);
+				ul.appendChild(li);
+				li.appendChild(continueButton);
 			}
-			continueButton.innerHTML = "➡️";
-			var ul = document.getElementById("historyUl");
-			var li = document.createElement("li");
-			li.appendChild(document.createTextNode(taskValue + stats));
-			li.setAttribute("id", taskNo);
-			ul.appendChild(li);
-			li.appendChild(continueButton);
 		}
 		
 		// show Task History
@@ -359,16 +368,17 @@ function AddGlobalStat() {
 }
 
 function AddTaskStat() {
-	var taskNo = "task" + taskCount;
+	var taskNoPh = "task" + taskCount + "p" + phaseCount;
 	
 	// grab taskHistory li with taskCount
-	var taskLi = document.getElementById(taskNo);
+	var taskLi = document.getElementById(taskNoPh);
 
 	// grab task information
-	var taskInfo = localStorage.getObj(taskNo);
+	var taskInfo = localStorage.getObj(taskNoPh);
 	taskValue = taskInfo.taskValue;
 	focusCount = taskInfo.focusCount;
 	breakCount = taskInfo.breakCount;
+	phaseCont = taskInfo.phaseCount;
 
 	// Change text of li
 	taskLi.innerHTML = taskValue + " (🍅 " + focusCount + " 🛀 " + breakCount + ")";
@@ -388,7 +398,7 @@ function AddContinueButton() {
 
 	// grab current task li
 	var taskNo = "continueButton" + taskCount;
-	var t = "task" + taskCount;
+	var t = "task" + taskCount + "p" + phaseCount;
 
 	// check if there is button
 	var c = "continueButton" + taskNo;
@@ -406,20 +416,23 @@ function AddContinueButton() {
 
 function startCountdown() {
 	// add taskCount to localStorage
+	// check if taskCount is null, then start taskCount from 1
+	// check if there is previousTaskCount, then replace it to current askCount
 	if (taskCount != null) {
 		if (localStorage.getItem("previousTaskCount") != null) {
-			// current TaskCount is Previous Task Count + 1, cand clear
+			// current TaskCount is Previous Task Count + 1, and clear
 			taskCount = parseInt(localStorage.getItem("previousTaskCount")) + 1;
 			localStorage.removeItem("previousTaskCount");
 
 			localStorage.setItem("taskCount", taskCount);
-			var x = "task" + taskCount;
+			var x = "task" + taskCount + "p" + phaseCount;
 			var taskValue = getFocusTask();
 			var a = {
 				taskCount: taskCount,
 				timerCount: 0,
 				focusCount: 0,
 				breakCount: 0,
+				phaseCount: 1,
 				taskValue: taskValue
 			}
 			localStorage.setObj(x, a);
@@ -427,13 +440,14 @@ function startCountdown() {
 		else {
 			taskCount++;
 			localStorage.setItem("taskCount", taskCount);
-			var x = "task" + taskCount;
+			var x = "task" + taskCount + "p" + phaseCount;
 			var taskValue = getFocusTask();
 			var a = {
 				taskCount: taskCount,
 				timerCount: 0,
 				focusCount: 0,
 				breakCount: 0,
+				phaseCount: 1,
 				taskValue: taskValue
 			}
 			localStorage.setObj(x, a);
@@ -448,9 +462,10 @@ function startCountdown() {
 			timerCount: 0,
 			focusCount: 0,
 			breakCount: 0,
+			phaseCount: 1,
 			taskValue: taskValue
 		}
-		localStorage.setObj("task1", a);
+		localStorage.setObj("task1p1", a);
 	};
 
 	// start pomodoro
@@ -487,7 +502,7 @@ function resetCountdown() {
 	resetPage();
 	
 	// remove highlight
-	var taskNo = "task" + taskCount;
+	var taskNo = "task" + taskCount + "p" + phaseCount;
 	document.getElementById(taskNo).style.backgroundColor = "";
 	
 	// grab the h1
@@ -575,11 +590,11 @@ function resumeCountdown() {
 
 function continueCountdown(this_id) {
 	// grab taskCount of the button
-	var buttonNo = this_id;
-	buttonNo = buttonNo.split("continueButton")[1];
+	var buttonNoPh = this_id;
+	buttonNoPh = buttonNoPh.split("continueButton")[1];
 
 	// grab task information
-	var taskNo = "task" + buttonNo;	
+	var taskNo = "task" + buttonNoPh;
 	var taskInfo = localStorage.getObj(taskNo);
 	console.log(taskNo);
 	console.log(localStorage.getObj(taskNo));
@@ -600,6 +615,7 @@ function continueCountdown(this_id) {
 	timerCount = taskInfo.timerCount;
 	focusCount = taskInfo.focusCount;
 	breakCount = taskInfo.breakCount;
+	phaseCount = taskInfo.phaseCount;
 
 
 	// clear timer
@@ -642,7 +658,7 @@ function createFocusTask() {
 	var ul = document.getElementById("historyUl");
 	var li = document.createElement("li");
 	li.appendChild(document.createTextNode(taskName));
-	li.setAttribute("id", "task"+taskCount);
+	li.setAttribute("id", "task"+taskCount+"p"+phaseCount);
 	li.setAttribute("style", "background-color: var(--background_color_z100)")
 	ul.appendChild(li);
 
