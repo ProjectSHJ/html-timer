@@ -13,7 +13,7 @@ function getHoliday() {
     let url = "https://date.nager.at/api/v3/PublicHolidays/" + year + "/" + country;
 
     fetch(url, {
-        mode: "no-cors",
+        mode: "cors",
         method: "GET",
         headers: {
             "Accept": "application/json"
