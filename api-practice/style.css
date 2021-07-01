@@ -1,0 +1,47 @@
+#container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+#button {
+    display: block;
+    margin: 10px auto;
+}
+
+#apiResponse {
+    text-align: center;
+}
+
+ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 440px;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    text-align: left;
+    padding: 10px;
+}
+
+li:first-child, li:nth-child(2) {
+    width: 240px;
+    font-weight: 600;
+    background-color: #f8f8f8;
+}
+
+li:nth-child(2n+1) {
+    width: 120px;
+    font-weight: 600;
+    text-align: right;
+}
+
+li:nth-child(2n+2) {
+    width: 280px;
+}
