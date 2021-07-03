@@ -11,8 +11,13 @@
 
 <body>
    <div id="container">
-      <button type="submit" id="button" onclick="getApi()">Get API</button>
-      <div id="apiResponse">here goes response…</div>
+      <span id="title">API Practice</span>
+      <div id="buttonContainer">
+         <button type="submit" id="button" onclick="getApi_ipInfo()">Get Ip info</button>
+         <button type="submit" id="button" onclick="getApi_currentWeather()">Get current Weather info</button>
+      </div>
+      <span id="apiReqeustTime">here goes the response…</span>
+      <div id="apiResponse"></div>
    </div>
 </body>
 
