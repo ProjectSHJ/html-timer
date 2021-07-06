@@ -155,20 +155,19 @@ function appendList(json) {
 
 async function getApi_ipInfo() {
     let url = "https://freegeoip.app/json/"
-    await fetch(url, {
+    var response = await fetch(url, {
         mode: "cors",
         method: "GET",
         headers: {
             "Accept": "application/json"
         }
     })
-    const response = await response.json()
-    const json = await {
-        console.log(json);
-        getCurrentTime();
-        // appendList(json);
-        CreateTableFromJSON(json);
-    }
+    response = await response.json()
+    
+    console.log(response);
+    getCurrentTime();
+    // appendList(response);
+    CreateTableFromJSON(response);
 }
 
 function getApi_currentWeather() {
