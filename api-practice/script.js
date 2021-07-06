@@ -19,33 +19,33 @@ Storage.prototype.getObj = function(key) {
 
 
 function getCurrentTime() {
-    var time = new Date();
-    var y = time.getFullYear();
-    var m = time.getMonth();
-    var d = time.getDate();
-    var hh = time.getHours();
+    const time = new Date();
+    const y = time.getFullYear();
+    const m = time.getMonth();
+    const d = time.getDate();
+    const hh = time.getHours();
     if (hh < 10) {
         hh = "0" + hh;
     }
-    var mm = time.getMinutes();
+    const mm = time.getMinutes();
     if (mm < 10) {
         mm = "0" + mm;
     }
-    var ss = time.getSeconds();
+    const ss = time.getSeconds();
     if (ss < 10) {
         ss = "0" + ss;
     }
     
-    var currentTime = y + "년 " + m + "월 " + d + "일 | " + hh + ":" + mm + ":" + ss
+    const currentTime = y + "년 " + m + "월 " + d + "일 | " + hh + ":" + mm + ":" + ss
     document.getElementById("apiReqeustTime").innerHTML = "API 정보 갱신 일시: " + currentTime;
 }
 
 function CreateTableFromJSON(json) {
-    var json = [json];
+    json = [json];
     // EXTRACT VALUE FOR HTML HEADER.
     var col = [];
-    for (var i = 0; i < json.length; i++) {
-        for (var key in json[i]) {
+    for (i = 0; i < json.length; i++) {
+        for (let key in json[i]) {
             if (col.indexOf(key) === -1) {
                 col.push(key);
             }
@@ -59,18 +59,18 @@ function CreateTableFromJSON(json) {
 
     var tr = table.insertRow(-1);                   // TABLE ROW.
 
-    for (var i = 0; i < col.length; i++) {
+    for (i = 0; i < col.length; i++) {
         var th = document.createElement("th");      // TABLE HEADER.
         th.innerHTML = col[i];
         tr.appendChild(th);
     }
 
     // ADD JSON DATA TO THE TABLE AS ROWS.
-    for (var i = 0; i < json.length; i++) {
+    for (i = 0; i < json.length; i++) {
 
         tr = table.insertRow(-1);
 
-        for (var j = 0; j < col.length; j++) {
+        for (j = 0; j < col.length; j++) {
             var tabCell = tr.insertCell(-1);
             var value = json[i][col[j]];
             if (typeof(value) == "object") {
@@ -82,18 +82,18 @@ function CreateTableFromJSON(json) {
     }
 
     // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
-    var apiResponse = document.getElementById("apiResponse");
+    const apiResponse = document.getElementById("apiResponse");
     apiResponse.innerHTML = "";
     apiResponse.appendChild(table);
 }
 
 function appendList(json) {
-    var ul = document.createElement("ul");
+    const ul = document.createElement("ul");
     ul.setAttribute("id", "ul");
-    var liKeyHeader = document.createElement("li");
+    const liKeyHeader = document.createElement("li");
         liKeyHeader.setAttribute("id", "key");
         liKeyHeader.innerHTML = "Key";
-    var liValueHeader = document.createElement("li")
+    const liValueHeader = document.createElement("li")
         liValueHeader.setAttribute("id", "value");
         liValueHeader.innerHTML = "Value";
 
@@ -102,26 +102,26 @@ function appendList(json) {
     document.getElementById("ul").appendChild(liKeyHeader);
     document.getElementById("ul").appendChild(liValueHeader);
 
-    var x = Object.keys(json).length;
+    const x = Object.keys(json).length;
     console.log("Key: 총 " + x + "개");
     console.log(JSON.stringify(json));
 
     for (i = 0; i < x; i++) {
-        var key = Object.keys(json)[i];
-        var value;
+        const key = Object.keys(json)[i];
+        let value;
             if (typeof(Object.values(json)[i]) == "object") {
-                var y = Object.values(json)[i];
+                const y = Object.values(json)[i];
                 value = JSON.stringify(y);
             }
             else {
-                var y = Object.values(json)[i];
+                const y = Object.values(json)[i];
                 value = y;
             }
 
-        var liKeyRow = document.createElement("li");
+        const liKeyRow = document.createElement("li");
             liKeyRow.setAttribute("class", "key");
             liKeyRow.innerHTML = key;
-        var liValueRow = document.createElement("li")
+        const liValueRow = document.createElement("li")
             liValueRow.setAttribute("class", "value");
             liValueRow.innerHTML = value;
 
@@ -134,23 +134,41 @@ function appendList(json) {
 =================== API Fetch functoins ===================
 */
 
-function getApi_ipInfo() {
-    let url = "https://freegeoip.app/json/"
+// function getApi_ipInfo() {
+//     let url = "https://freegeoip.app/json/"
 
-    fetch(url, {
+//     fetch(url, {
+//         mode: "cors",
+//         method: "GET",
+//         headers: {
+//             "Accept": "application/json"
+//         }
+//     })
+//     .then(response => response.json())
+//     .then(json => {
+//         console.log(json);
+//         getCurrentTime();
+//         // appendList(json);
+//         CreateTableFromJSON(json);
+//     })
+// }
+
+async function getApi_ipInfo() {
+    let url = "https://freegeoip.app/json/"
+    await fetch(url, {
         mode: "cors",
         method: "GET",
         headers: {
             "Accept": "application/json"
         }
     })
-    .then(response => response.json())
-    .then(json => {
+    const response = await response.json()
+    const json = await {
         console.log(json);
         getCurrentTime();
         // appendList(json);
         CreateTableFromJSON(json);
-    })
+    }
 }
 
 function getApi_currentWeather() {
@@ -163,8 +181,8 @@ function getApi_currentWeather() {
     })
     .then(response => response.json())
     .then(json => {
-        var lat = Object.values(json)[8];
-        var lon = Object.values(json)[9];
+        const lat = Object.values(json)[8];
+        const lon = Object.values(json)[9];
         let key = "18ad4f9360c88c9ebd053c46af11eb08"
         let url = "https://api.openweathermap.org/data/2.5/weather?lat="+ lat +"&lon=" +lon + "&appid=" + key
     
