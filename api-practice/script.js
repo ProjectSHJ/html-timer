@@ -1,12 +1,3 @@
-// getHoliday().catch(error => {
-//     console.error(error);
-// })
-
-// async function getHoliday() {
-//     const response = await fetch("https://date.nager.at/api/v3/PublicHolidays/2021/kr", { mode: "no-cors"})
-//     console.log(response);
-// }
-
 /*
 =================== Common functoins ===================
 */
@@ -16,7 +7,6 @@ Storage.prototype.setObj = function(key, obj) {
 Storage.prototype.getObj = function(key) {
     return JSON.parse(this.getItem(key))
 };
-
 
 function getCurrentTime() {
     var time = new Date();
@@ -151,38 +141,6 @@ async function getApi_ipInfo() {
     // appendList(response);
     CreateTableFromJSON(response);
 }
-
-// function getApi_currentWeather() {
-// fetch('https://freegeoip.app/json/', {
-//     mode: "cors",
-//     method: "GET",
-//     headers: {
-//         "Accept": "application/json"
-//     }
-// })
-//     .then(response => response.json())
-//     .then(json => {
-//         const lat = Object.values(json)[8];
-//         const lon = Object.values(json)[9];
-//         let key = "18ad4f9360c88c9ebd053c46af11eb08"
-//         let url = "https://api.openweathermap.org/data/2.5/weather?lat="+ lat +"&lon=" +lon + "&appid=" + key
-    
-//         fetch (url, {
-//             mode: "cors",
-//             mothod: "GET",
-//             headers: {
-//                 "Accept": "application/json"
-//             }
-//         })
-//         .then(response => response.json())
-//         .then(json => {
-//             console.log(json);
-//             getCurrentTime();
-//             // appendList(json);
-//             CreateTableFromJSON(json);
-//         })
-//     })
-// }
 
 async function getApi_currentWeather() {
     var response = await fetch('https://freegeoip.app/json/', {
