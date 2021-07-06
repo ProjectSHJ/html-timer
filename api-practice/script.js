@@ -19,24 +19,24 @@ Storage.prototype.getObj = function(key) {
 
 
 function getCurrentTime() {
-    const time = new Date();
-    const y = time.getFullYear();
-    const m = time.getMonth();
-    const d = time.getDate();
-    const hh = time.getHours();
+    var time = new Date();
+    var y = time.getFullYear();
+    var m = time.getMonth();
+    var d = time.getDate();
+    var hh = time.getHours();
     if (hh < 10) {
         hh = "0" + hh;
     }
-    const mm = time.getMinutes();
+    var mm = time.getMinutes();
     if (mm < 10) {
         mm = "0" + mm;
     }
-    const ss = time.getSeconds();
+    var ss = time.getSeconds();
     if (ss < 10) {
         ss = "0" + ss;
     }
     
-    const currentTime = y + "년 " + m + "월 " + d + "일 | " + hh + ":" + mm + ":" + ss
+    var currentTime = y + "년 " + m + "월 " + d + "일 | " + hh + ":" + mm + ":" + ss
     document.getElementById("apiReqeustTime").innerHTML = "API 정보 갱신 일시: " + currentTime;
 }
 
@@ -134,24 +134,6 @@ function appendList(json) {
 =================== API Fetch functoins ===================
 */
 
-// function getApi_ipInfo() {
-//     let url = "https://freegeoip.app/json/"
-
-//     fetch(url, {
-//         mode: "cors",
-//         method: "GET",
-//         headers: {
-//             "Accept": "application/json"
-//         }
-//     })
-//     .then(response => response.json())
-//     .then(json => {
-//         console.log(json);
-//         getCurrentTime();
-//         // appendList(json);
-//         CreateTableFromJSON(json);
-//     })
-// }
 
 async function getApi_ipInfo() {
     let url = "https://freegeoip.app/json/"
@@ -161,8 +143,8 @@ async function getApi_ipInfo() {
         headers: {
             "Accept": "application/json"
         }
-    })
-    response = await response.json()
+    });
+    response = await response.json();
     
     console.log(response);
     getCurrentTime();
@@ -170,34 +152,63 @@ async function getApi_ipInfo() {
     CreateTableFromJSON(response);
 }
 
-function getApi_currentWeather() {
-    fetch('https://freegeoip.app/json/', {
+// function getApi_currentWeather() {
+// fetch('https://freegeoip.app/json/', {
+//     mode: "cors",
+//     method: "GET",
+//     headers: {
+//         "Accept": "application/json"
+//     }
+// })
+//     .then(response => response.json())
+//     .then(json => {
+//         const lat = Object.values(json)[8];
+//         const lon = Object.values(json)[9];
+//         let key = "18ad4f9360c88c9ebd053c46af11eb08"
+//         let url = "https://api.openweathermap.org/data/2.5/weather?lat="+ lat +"&lon=" +lon + "&appid=" + key
+    
+//         fetch (url, {
+//             mode: "cors",
+//             mothod: "GET",
+//             headers: {
+//                 "Accept": "application/json"
+//             }
+//         })
+//         .then(response => response.json())
+//         .then(json => {
+//             console.log(json);
+//             getCurrentTime();
+//             // appendList(json);
+//             CreateTableFromJSON(json);
+//         })
+//     })
+// }
+
+async function getApi_currentWeather() {
+    var response = await fetch('https://freegeoip.app/json/', {
         mode: "cors",
         method: "GET",
         headers: {
             "Accept": "application/json"
         }
+    });
+    response = await response.json();
+
+    const lat = Object.values(response)[8];
+    const lon = Object.values(response)[9];
+    let key = "18ad4f9360c88c9ebd053c46af11eb08";
+    let url = "https://api.openweathermap.org/data/2.5/weather?lat="+ lat +"&lon=" +lon + "&appid=" + key;
+
+    var weather = await fetch (url, {
+        mode: "cors",
+        mothod: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
     })
-    .then(response => response.json())
-    .then(json => {
-        const lat = Object.values(json)[8];
-        const lon = Object.values(json)[9];
-        let key = "18ad4f9360c88c9ebd053c46af11eb08"
-        let url = "https://api.openweathermap.org/data/2.5/weather?lat="+ lat +"&lon=" +lon + "&appid=" + key
-    
-        fetch (url, {
-            mode: "cors",
-            mothod: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        })
-        .then(response => response.json())
-        .then(json => {
-            console.log(json);
-            getCurrentTime();
-            // appendList(json);
-            CreateTableFromJSON(json);
-        })
-    })
+    weather = await weather.json();
+    console.log(weather);
+    getCurrentTime();
+    // appendList(weather);
+    CreateTableFromJSON(weather);
 }
